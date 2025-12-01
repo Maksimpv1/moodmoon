@@ -18,6 +18,78 @@ document.querySelectorAll('.button').forEach(button => {
         console.log('Консультация запрошена');
         // Здесь можно добавить логику отправки формы или открытия модального окна
     });
+    
+    let animationFrameId = null;
+    let startTime = null;
+    const duration = 2000; // 2 секунды
+    
+    let isHovered = false;
+    
+    function animateMoonOpacity(timestamp) {
+        if (!startTime) {
+            startTime = timestamp;
+            // Сразу же скрываем луну при начале анимации
+            button.style.setProperty('--moon-opacity', '0');
+        }
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Луна исчезает с самого начала движения (с 0% до 95%)
+        let opacity = 0;
+        if (progress > 0.95) {
+            opacity = 1;
+            // Меняем clip-path пока луна невидима
+            if (isHovered) {
+                button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
+            } else {
+                button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
+            }
+        } else {
+            // Когда луна видима, clip-path уже должен быть правильным
+            if (isHovered) {
+                button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
+            } else {
+                button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
+            }
+        }
+        
+        button.style.setProperty('--moon-opacity', opacity);
+        
+        if (progress < 1) {
+            animationFrameId = requestAnimationFrame(animateMoonOpacity);
+        } else {
+            // Анимация завершена
+            animationFrameId = null;
+            startTime = null;
+            button.style.setProperty('--moon-opacity', '1');
+        }
+    }
+    
+    // Управление исчезновением луны при hover
+    button.addEventListener('mouseenter', function() {
+        isHovered = true;
+        // Останавливаем предыдущую анимацию если есть
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+        startTime = null;
+        button.style.setProperty('--moon-opacity', '1');
+        button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
+        animationFrameId = requestAnimationFrame(animateMoonOpacity);
+    });
+    
+    // Управление исчезновением луны при уходе курсора
+    button.addEventListener('mouseleave', function() {
+        isHovered = false;
+        // Останавливаем предыдущую анимацию если есть
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+        startTime = null;
+        button.style.setProperty('--moon-opacity', '1');
+        button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
+        animationFrameId = requestAnimationFrame(animateMoonOpacity);
+    });
 });
 
 // Footer button handlers

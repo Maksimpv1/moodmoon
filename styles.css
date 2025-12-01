@@ -189,11 +189,66 @@ html {
     justify-content: center;
     align-items: center;
     padding: var(--button-padding);
-    transition: opacity 0.3s;
+    position: relative;
+    overflow: visible;
+    transition:
+        opacity 0.3s,
+        background-color 2s ease,
+        border-color 2s ease;
+    --moon-base-color: #ffffff;
+    --moon-cut-color: var(--color-black);
 }
 
+/* Полумесяц слева - белый круг с обрезкой справа */
+.button::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    background-color: var(--moon-base-color);
+    border-radius: 50%;
+    clip-path: var(--moon-clip-path, inset(0 50% 0 0));
+    opacity: var(--moon-opacity, 1);
+    transition:
+        left 2s ease,
+        clip-path 0s,
+        background-color 2s ease;
+}
+
+/* Вырез для полумесяца - использует CSS переменную для синхронизации с фоном */
+.button::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 50px;
+    background-color: var(--color-black);
+    border-radius: 50%;
+    opacity: var(--moon-opacity, 1);
+    transition:
+        left 2s ease,
+        background-color 2s ease;
+}
+
+/* Hover состояние - белая кнопка, чёрная луна справа */
 .button:hover {
-    opacity: 0.9;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    --moon-base-color: #000000;
+}
+
+.button:hover::before {
+    left: calc(100% - 60px);
+}
+
+.button:hover::after {
+    left: calc(100% - 66px);
+    background-color: #FFFFFF;
 }
 
 .button__text {
@@ -201,6 +256,13 @@ html {
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-white);
+    position: relative;
+    z-index: 1;
+    transition: color 2s ease;
+}
+
+.button:hover .button__text {
+    color: #000000;
 }
 
 /* Benefits Section */
