@@ -203,7 +203,7 @@ html {
 .button::before {
     content: '';
     position: absolute;
-    left: 8px;
+    left: var(--moon-left, 8px);
     top: 50%;
     transform: translateY(-50%);
     width: 52px;
@@ -211,45 +211,29 @@ html {
     background-color: var(--moon-base-color);
     border-radius: 50%;
     clip-path: var(--moon-clip-path, inset(0 50% 0 0));
-    opacity: var(--moon-opacity, 1);
-    transition:
-        left 2s ease,
-        clip-path 0s,
-        background-color 2s ease;
+    transition: left 1s ease, clip-path 0s;
 }
 
 /* Вырез для полумесяца - использует CSS переменную для синхронизации с фоном */
 .button::after {
     content: '';
     position: absolute;
-    left: 18px;
+    left: var(--moon-cut-left, 18px);
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 50px;
-    background-color: var(--color-black);
+    width: var(--moon-cut-width, 48px);
+    height: var(--moon-cut-height, 50px);
+    background-color: var(--moon-cut-color, var(--color-black));
     border-radius: 50%;
-    opacity: var(--moon-opacity, 1);
-    transition:
-        left 2s ease,
-        background-color 2s ease;
+    transition: left 1s ease, width 0.5s ease, height 0.5s ease;
 }
 
 /* Hover состояние - белая кнопка, чёрная луна справа */
 .button:hover {
     background-color: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    --moon-base-color: #000000;
 }
 
-.button:hover::before {
-    left: calc(100% - 60px);
-}
-
-.button:hover::after {
-    left: calc(100% - 66px);
-    background-color: #FFFFFF;
-}
 
 .button__text {
     font-size: var(--font-size-20);

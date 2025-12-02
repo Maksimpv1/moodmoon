@@ -19,76 +19,104 @@ document.querySelectorAll('.button').forEach(button => {
         // Здесь можно добавить логику отправки формы или открытия модального окна
     });
     
-    let animationFrameId = null;
-    let startTime = null;
-    const duration = 2000; // 2 секунды
-    
-    let isHovered = false;
-    
-    function animateMoonOpacity(timestamp) {
-        if (!startTime) {
-            startTime = timestamp;
-            // Сразу же скрываем луну при начале анимации
-            button.style.setProperty('--moon-opacity', '0');
+    // Синхронизация цветов луны и круга с цветом кнопки
+    function syncMoonColors() {
+        const computedStyle = getComputedStyle(button);
+        const buttonColor = computedStyle.backgroundColor;
+
+        // Определяем противоположный цвет для луны
+        const rgb = buttonColor.match(/\d+/g);
+        if (rgb && rgb.length >= 3) {
+            const r = parseInt(rgb[0]);
+            const g = parseInt(rgb[1]);
+            const b = parseInt(rgb[2]);
+            // Если цвет темный (сумма RGB < 384), луна белая, иначе черная
+            const isDark = (r + g + b) < 384;
+            const moonColor = isDark ? '#FFFFFF' : '#000000';
+
+            // Луна - противоположный цвет кнопке
+            button.style.setProperty('--moon-base-color', moonColor);
         }
-        const elapsed = timestamp - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Луна исчезает с самого начала движения (с 0% до 95%)
-        let opacity = 0;
-        if (progress > 0.95) {
-            opacity = 1;
-            // Меняем clip-path пока луна невидима
-            if (isHovered) {
-                button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
-            } else {
-                button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
-            }
-        } else {
-            // Когда луна видима, clip-path уже должен быть правильным
-            if (isHovered) {
-                button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
-            } else {
-                button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
-            }
+
+        // Внутренний круг - всегда цвет фона кнопки
+        button.style.setProperty('--moon-cut-color', buttonColor);
+    }
+
+    let moonAnimationTimeout = null;
+    
+    // Функция для перемещения луны
+    function moveMoon(isHover) {
+        // Очищаем предыдущий таймер
+        if (moonAnimationTimeout) {
+            clearTimeout(moonAnimationTimeout);
+            moonAnimationTimeout = null;
         }
-        
-        button.style.setProperty('--moon-opacity', opacity);
-        
-        if (progress < 1) {
-            animationFrameId = requestAnimationFrame(animateMoonOpacity);
+
+        if (isHover) {
+            // В начале движения внутренний круг увеличивается до размера всей кнопки (60px)
+            button.style.setProperty('--moon-cut-width', '60px');
+            button.style.setProperty('--moon-cut-height', '60px');
+
+            // Сначала оба круга идут вместе до позиции внешнего круга
+            const moonRight = 8; // отступ справа для внешнего круга
+            button.style.setProperty('--moon-left', `calc(100% - ${52 + moonRight}px)`);
+            button.style.setProperty('--moon-cut-left', `calc(100% - ${60 + moonRight}px)`); // внутренний круг идет вместе с внешним
+            button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
+
+            // Через 0.75s внутренний круг возвращается к обычному размеру и выезжает вправо
+            moonAnimationTimeout = setTimeout(() => {
+                button.style.setProperty('--moon-cut-width', '48px');
+                button.style.setProperty('--moon-cut-height', '50px');
+                const cutRight = 18; // отступ справа для внутреннего круга
+                button.style.setProperty('--moon-cut-left', `calc(100% - ${48 + cutRight}px)`);
+                moonAnimationTimeout = null;
+                // Синхронизируем цвета после завершения анимации
+                syncMoonColors();
+            }, 750);
         } else {
-            // Анимация завершена
-            animationFrameId = null;
-            startTime = null;
-            button.style.setProperty('--moon-opacity', '1');
+            // В начале движения внутренний круг увеличивается до размера всей кнопки (60px)
+            button.style.setProperty('--moon-cut-width', '60px');
+            button.style.setProperty('--moon-cut-height', '60px');
+
+            // Сначала оба круга идут вместе до позиции внешнего круга
+            button.style.setProperty('--moon-left', '8px');
+            button.style.setProperty('--moon-cut-left', '0px'); // внутренний круг идет вместе с внешним
+            button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
+
+            // Через 0.75s внутренний круг возвращается к обычному размеру и выезжает влево
+            moonAnimationTimeout = setTimeout(() => {
+                button.style.setProperty('--moon-cut-width', '48px');
+                button.style.setProperty('--moon-cut-height', '50px');
+                button.style.setProperty('--moon-cut-left', '18px');
+                moonAnimationTimeout = null;
+                // Синхронизируем цвета после завершения анимации
+                syncMoonColors();
+            }, 750);
         }
     }
     
-    // Управление исчезновением луны при hover
+    // Обновляем цвета при загрузке
+    syncMoonColors();
+
     button.addEventListener('mouseenter', function() {
-        isHovered = true;
-        // Останавливаем предыдущую анимацию если есть
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-        }
-        startTime = null;
-        button.style.setProperty('--moon-opacity', '1');
-        button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
-        animationFrameId = requestAnimationFrame(animateMoonOpacity);
+        moveMoon(true);
+        syncMoonColors();
+    });
+
+    button.addEventListener('mouseleave', function() {
+        moveMoon(false);
+        syncMoonColors();
     });
     
-    // Управление исчезновением луны при уходе курсора
-    button.addEventListener('mouseleave', function() {
-        isHovered = false;
-        // Останавливаем предыдущую анимацию если есть
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-        }
-        startTime = null;
-        button.style.setProperty('--moon-opacity', '1');
-        button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
-        animationFrameId = requestAnimationFrame(animateMoonOpacity);
+    // Отслеживаем изменения через MutationObserver для синхронизации цвета внутреннего круга
+    const observer = new MutationObserver(() => {
+        const computedStyle = getComputedStyle(button);
+        const buttonColor = computedStyle.backgroundColor;
+        button.style.setProperty('--moon-cut-color', buttonColor);
+    });
+    observer.observe(button, {
+        attributes: true,
+        attributeFilter: ['style', 'class']
     });
 });
 
