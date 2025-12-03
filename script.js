@@ -54,8 +54,8 @@ document.querySelectorAll('.button').forEach(button => {
 
         if (isHover) {
             // В начале движения внутренний круг увеличивается до размера всей кнопки (60px)
-            button.style.setProperty('--moon-cut-width', '60px');
-            button.style.setProperty('--moon-cut-height', '60px');
+            button.style.setProperty('--moon-cut-width', '6rem');
+            button.style.setProperty('--moon-cut-height', '6rem');
 
             // Сначала оба круга идут вместе до позиции внешнего круга
             const moonRight = 8; // отступ справа для внешнего круга
@@ -65,8 +65,8 @@ document.querySelectorAll('.button').forEach(button => {
 
             // Через 0.75s внутренний круг возвращается к обычному размеру и выезжает вправо
             moonAnimationTimeout = setTimeout(() => {
-                button.style.setProperty('--moon-cut-width', '48px');
-                button.style.setProperty('--moon-cut-height', '50px');
+                button.style.setProperty('--moon-cut-width', '4.8rem');
+                button.style.setProperty('--moon-cut-height', '5rem');
                 const cutRight = 18; // отступ справа для внутреннего круга
                 button.style.setProperty('--moon-cut-left', `calc(100% - ${48 + cutRight}px)`);
                 moonAnimationTimeout = null;
@@ -75,19 +75,19 @@ document.querySelectorAll('.button').forEach(button => {
             }, 750);
         } else {
             // В начале движения внутренний круг увеличивается до размера всей кнопки (60px)
-            button.style.setProperty('--moon-cut-width', '60px');
-            button.style.setProperty('--moon-cut-height', '60px');
+            button.style.setProperty('--moon-cut-width', '6rem');
+            button.style.setProperty('--moon-cut-height', '6rem');
 
             // Сначала оба круга идут вместе до позиции внешнего круга
-            button.style.setProperty('--moon-left', '8px');
-            button.style.setProperty('--moon-cut-left', '0px'); // внутренний круг идет вместе с внешним
+            button.style.setProperty('--moon-left', '0.8rem');
+            button.style.setProperty('--moon-cut-left', '0'); // внутренний круг идет вместе с внешним
             button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
 
             // Через 0.75s внутренний круг возвращается к обычному размеру и выезжает влево
             moonAnimationTimeout = setTimeout(() => {
-                button.style.setProperty('--moon-cut-width', '48px');
-                button.style.setProperty('--moon-cut-height', '50px');
-                button.style.setProperty('--moon-cut-left', '18px');
+                button.style.setProperty('--moon-cut-width', '4.8rem');
+                button.style.setProperty('--moon-cut-height', '5rem');
+                button.style.setProperty('--moon-cut-left', '1.8rem');
                 moonAnimationTimeout = null;
                 // Синхронизируем цвета после завершения анимации
                 syncMoonColors();
