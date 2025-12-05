@@ -16,107 +16,130 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 document.querySelectorAll('.button').forEach(button => {
     button.addEventListener('click', function() {
         console.log('Консультация запрошена');
-        // Здесь можно добавить логику отправки формы или открытия модального окна
     });
-    
-    // Синхронизация цветов луны и круга с цветом кнопки
-    function syncMoonColors() {
-        const computedStyle = getComputedStyle(button);
-        const buttonColor = computedStyle.backgroundColor;
 
-        // Определяем противоположный цвет для луны
-        const rgb = buttonColor.match(/\d+/g);
-        if (rgb && rgb.length >= 3) {
-            const r = parseInt(rgb[0]);
-            const g = parseInt(rgb[1]);
-            const b = parseInt(rgb[2]);
-            // Если цвет темный (сумма RGB < 384), луна белая, иначе черная
-            const isDark = (r + g + b) < 384;
-            const moonColor = isDark ? '#FFFFFF' : '#000000';
-
-            // Луна - противоположный цвет кнопке
-            button.style.setProperty('--moon-base-color', moonColor);
-        }
-
-        // Внутренний круг - всегда цвет фона кнопки
-        button.style.setProperty('--moon-cut-color', buttonColor);
+    // Синхронизация цвета ::after с цветом фона кнопки в реальном времени
+    function syncBgColor() {
+        const bgColor = getComputedStyle(button).backgroundColor;
+        button.style.setProperty('--button-bg-color', bgColor);
+        requestAnimationFrame(syncBgColor);
     }
+    syncBgColor();
 
-    let moonAnimationTimeout = null;
-    
-    // Функция для перемещения луны
-    function moveMoon(isHover) {
-        // Очищаем предыдущий таймер
-        if (moonAnimationTimeout) {
-            clearTimeout(moonAnimationTimeout);
-            moonAnimationTimeout = null;
-        }
-
-        if (isHover) {
-            // В начале движения внутренний круг увеличивается до размера всей кнопки (60px)
-            button.style.setProperty('--moon-cut-width', '6rem');
-            button.style.setProperty('--moon-cut-height', '6rem');
-
-            // Сначала оба круга идут вместе до позиции внешнего круга
-            const moonRight = 8; // отступ справа для внешнего круга
-            button.style.setProperty('--moon-left', `calc(100% - ${52 + moonRight}px)`);
-            button.style.setProperty('--moon-cut-left', `calc(100% - ${60 + moonRight}px)`); // внутренний круг идет вместе с внешним
-            button.style.setProperty('--moon-clip-path', 'inset(0 0 0 50%)');
-
-            // Через 0.75s внутренний круг возвращается к обычному размеру и выезжает вправо
-            moonAnimationTimeout = setTimeout(() => {
-                button.style.setProperty('--moon-cut-width', '4.8rem');
-                button.style.setProperty('--moon-cut-height', '5rem');
-                const cutRight = 18; // отступ справа для внутреннего круга
-                button.style.setProperty('--moon-cut-left', `calc(100% - ${48 + cutRight}px)`);
-                moonAnimationTimeout = null;
-                // Синхронизируем цвета после завершения анимации
-                syncMoonColors();
-            }, 750);
+    // Определяем размеры в зависимости от ширины экрана
+    function getMoonSizes() {
+        const width = window.innerWidth;
+        
+        if (width <= 600) {
+            // Мобильные
+            return {
+                moonLeft: '0.6rem',
+                moonLeftHidden: '1.4rem',
+                innerWidth: '3.8rem',
+                innerHeight: '4rem',
+                innerWidthExpanded: '4rem',
+                innerHeightExpanded: '4.2rem',
+                innerLeft: '1.4rem',
+                innerLeftExpanded: '1.3rem',
+                moonRightHidden: '1.4rem',
+                moonRight: '0.6rem',
+                innerRightPos: '1.4rem',
+                innerRightPosExpanded: '1.3rem'
+            };
+        } else if (width <= 1200) {
+            // Планшеты
+            return {
+                moonLeft: '0.8rem',
+                moonLeftHidden: '1.7rem',
+                innerWidth: '4.6rem',
+                innerHeight: '4.8rem',
+                innerWidthExpanded: '4.8rem',
+                innerHeightExpanded: '5rem',
+                innerLeft: '1.7rem',
+                innerLeftExpanded: '1.6rem',
+                moonRightHidden: '1.7rem',
+                moonRight: '0.8rem',
+                innerRightPos: '1.7rem',
+                innerRightPosExpanded: '1.6rem'
+            };
         } else {
-            // В начале движения внутренний круг увеличивается до размера всей кнопки (60px)
-            button.style.setProperty('--moon-cut-width', '6rem');
-            button.style.setProperty('--moon-cut-height', '6rem');
-
-            // Сначала оба круга идут вместе до позиции внешнего круга
-            button.style.setProperty('--moon-left', '0.8rem');
-            button.style.setProperty('--moon-cut-left', '0'); // внутренний круг идет вместе с внешним
-            button.style.setProperty('--moon-clip-path', 'inset(0 50% 0 0)');
-
-            // Через 0.75s внутренний круг возвращается к обычному размеру и выезжает влево
-            moonAnimationTimeout = setTimeout(() => {
-                button.style.setProperty('--moon-cut-width', '4.8rem');
-                button.style.setProperty('--moon-cut-height', '5rem');
-                button.style.setProperty('--moon-cut-left', '1.8rem');
-                moonAnimationTimeout = null;
-                // Синхронизируем цвета после завершения анимации
-                syncMoonColors();
-            }, 750);
+            // Десктоп
+            return {
+                moonLeft: '0.8rem',
+                moonLeftHidden: '1.8rem',
+                innerWidth: '4.8rem',
+                innerHeight: '5rem',
+                innerWidthExpanded: '5rem',
+                innerHeightExpanded: '5.2rem',
+                innerLeft: '1.8rem',
+                innerLeftExpanded: '1.7rem',
+                moonRightHidden: '1.8rem',
+                moonRight: '0.8rem',
+                innerRightPos: '1.8rem',
+                innerRightPosExpanded: '1.7rem'
+            };
         }
     }
-    
-    // Обновляем цвета при загрузке
-    syncMoonColors();
 
+    // Устанавливаем начальные значения CSS переменных для плавной первой анимации
+    function setInitialMoonValues() {
+        const sizes = getMoonSizes();
+        // Левая луна (видна)
+        button.style.setProperty('--moon-left', sizes.moonLeft);
+        button.style.setProperty('--inner-width', sizes.innerWidth);
+        button.style.setProperty('--inner-height', sizes.innerHeight);
+        button.style.setProperty('--inner-left', sizes.innerLeft);
+        // Правая луна (изначально спрятана за внутренним кругом - он увеличен на 2px)
+        button.style.setProperty('--moon-right-pos', sizes.moonRightHidden);
+        button.style.setProperty('--inner-right-width', sizes.innerWidthExpanded);
+        button.style.setProperty('--inner-right-height', sizes.innerHeightExpanded);
+        button.style.setProperty('--inner-right-pos', sizes.innerRightPosExpanded);
+    }
+
+    setInitialMoonValues();
+
+    // Обновляем при изменении размера окна
+    window.addEventListener('resize', setInitialMoonValues);
+
+    let rightMoonTimeout = null;
+
+    // Анимация луны - левая прячется, правая появляется
     button.addEventListener('mouseenter', function() {
-        moveMoon(true);
-        syncMoonColors();
+        if (rightMoonTimeout) clearTimeout(rightMoonTimeout);
+        const sizes = getMoonSizes();
+
+        // Левая луна прячется (внутренний круг увеличивается на 2px)
+        button.style.setProperty('--moon-left', sizes.moonLeftHidden);
+        button.style.setProperty('--inner-width', sizes.innerWidthExpanded);
+        button.style.setProperty('--inner-height', sizes.innerHeightExpanded);
+        button.style.setProperty('--inner-left', sizes.innerLeftExpanded);
+
+        // Правая луна появляется с задержкой (внутренний круг уменьшается)
+        rightMoonTimeout = setTimeout(() => {
+            button.style.setProperty('--moon-right-pos', sizes.moonRight);
+            button.style.setProperty('--inner-right-width', sizes.innerWidth);
+            button.style.setProperty('--inner-right-height', sizes.innerHeight);
+            button.style.setProperty('--inner-right-pos', sizes.innerRightPos);
+        }, 350);
     });
 
     button.addEventListener('mouseleave', function() {
-        moveMoon(false);
-        syncMoonColors();
-    });
-    
-    // Отслеживаем изменения через MutationObserver для синхронизации цвета внутреннего круга
-    const observer = new MutationObserver(() => {
-        const computedStyle = getComputedStyle(button);
-        const buttonColor = computedStyle.backgroundColor;
-        button.style.setProperty('--moon-cut-color', buttonColor);
-    });
-    observer.observe(button, {
-        attributes: true,
-        attributeFilter: ['style', 'class']
+        if (rightMoonTimeout) clearTimeout(rightMoonTimeout);
+        const sizes = getMoonSizes();
+
+        // Правая луна прячется (внутренний круг увеличивается на 2px)
+        button.style.setProperty('--moon-right-pos', sizes.moonRightHidden);
+        button.style.setProperty('--inner-right-width', sizes.innerWidthExpanded);
+        button.style.setProperty('--inner-right-height', sizes.innerHeightExpanded);
+        button.style.setProperty('--inner-right-pos', sizes.innerRightPosExpanded);
+
+        // Левая луна появляется с задержкой (внутренний круг уменьшается)
+        rightMoonTimeout = setTimeout(() => {
+            button.style.setProperty('--moon-left', sizes.moonLeft);
+            button.style.setProperty('--inner-width', sizes.innerWidth);
+            button.style.setProperty('--inner-height', sizes.innerHeight);
+            button.style.setProperty('--inner-left', sizes.innerLeft);
+        }, 350);
     });
 });
 
@@ -244,6 +267,12 @@ function initStagesSlider() {
 
     if (!sliderContainer || !sliderWrapper || !indicator) return;
 
+    // Always stop previous interval
+    if (stagesSliderInterval) {
+        clearInterval(stagesSliderInterval);
+        stagesSliderInterval = null;
+    }
+
     if (isMobile) {
         const allRows = stagesContent.querySelectorAll('.stages__row');
         const cardsArray = [];
@@ -258,6 +287,7 @@ function initStagesSlider() {
         sliderContainer.style.display = 'block';
         allRows.forEach(row => row.style.display = 'none');
 
+        // Rebuild every time to ensure correct layout
         sliderWrapper.innerHTML = '';
         indicator.innerHTML = '';
 
@@ -280,6 +310,8 @@ function initStagesSlider() {
         sliderContainer.style.display = 'none';
         const allRows = stagesContent.querySelectorAll('.stages__row');
         allRows.forEach(row => row.style.display = 'flex');
+        sliderWrapper.innerHTML = '';
+        indicator.innerHTML = '';
     }
 }
 
@@ -308,12 +340,32 @@ function startStagesSlider(wrapper, indicator) {
         });
     }
 
+    // Set initial position without animation to avoid jump
+    wrapper.style.transition = 'none';
+    wrapper.style.transform = 'translateX(0)';
+    wrapper.offsetHeight; // force reflow
+    wrapper.style.transition = 'transform 0.5s ease-in-out';
+
+    // Initial dots state
+    dots.forEach((dot, index) => {
+        if (index === 0) {
+            dot.classList.add('stages__indicator-dot--active');
+        } else {
+            dot.classList.remove('stages__indicator-dot--active');
+        }
+    });
+
+    // initial state without animation
+    wrapper.style.transition = 'none';
+    wrapper.style.transform = 'translateX(0)';
+    wrapper.offsetHeight; // force reflow
+    wrapper.style.transition = 'transform 0.5s ease-in-out';
+    updateSlider();
+
     stagesSliderInterval = setInterval(() => {
         currentIndex = (currentIndex + 1) % slides.length;
         updateSlider();
     }, 3000);
-
-    updateSlider();
 }
 
 function handleStagesSection() {
@@ -321,5 +373,8 @@ function handleStagesSection() {
 }
 
 window.addEventListener('load', handleStagesSection);
-window.addEventListener('resize', handleStagesSection);
+window.addEventListener('resize', () => {
+    clearTimeout(window.stagesResizeTimer);
+    window.stagesResizeTimer = setTimeout(handleStagesSection, 200);
+});
 

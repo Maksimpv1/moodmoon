@@ -128,7 +128,6 @@ html {
     display: flex;
     flex-wrap: wrap;
     gap: clamp(2rem, 2.08vw, 3rem);
-    align-items: flex-start;
 }
 
 .hero__content {
@@ -148,19 +147,19 @@ html {
 
 .hero__title {
     font-size: clamp(2.8rem, 4.17vw, 6rem);
-    font-size:6rem ;
     font-weight: 700;
     line-height: var(--line-height-title);
     color: var(--color-text-primary);
-    max-width: 56.8rem;
+    white-space: pre-line;
 }
 
 .hero__description {
-    font-size: clamp(1.4rem, 1.39vw, 2rem);
+    font-size: clamp(1.8rem, 1.5vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
     max-width: 40.5rem;
+    white-space: pre-line;
 }
 
 .hero__image-wrapper {
@@ -196,11 +195,9 @@ html {
         opacity 0.3s,
         background-color 2s ease,
         border-color 2s ease;
-    --moon-base-color: #ffffff;
-    --moon-cut-color: var(--color-black);
 }
 
-/* Полумесяц слева - белый круг с обрезкой справа */
+/* Луна слева (внешний круг) */
 .button::before {
     content: '';
     position: absolute;
@@ -209,45 +206,85 @@ html {
     transform: translateY(-50%);
     width: 5.2rem;
     height: 5.2rem;
-    background-color: var(--moon-base-color);
+    background-color: #ffffff;
     border-radius: 50%;
-    clip-path: var(--moon-clip-path, inset(0 50% 0 0));
-    transition: left 1s ease, clip-path 0s;
+    clip-path: inset(0 50% 0 0);
+    transition: left 0.5s ease;
 }
 
-/* Вырез для полумесяца - использует CSS переменную для синхронизации с фоном */
+/* Луна при hover - черная */
+.button:hover::before {
+    background-color: #000000;
+}
+
+/* Внутренний круг - цвет синхронизируется с фоном через JS */
 .button::after {
     content: '';
     position: absolute;
-    left: var(--moon-cut-left, 1.8rem);
+    left: var(--inner-left, 1.8rem);
     top: 50%;
     transform: translateY(-50%);
-    width: var(--moon-cut-width, 4.8rem);
-    height: var(--moon-cut-height, 5rem);
-    background-color: var(--moon-cut-color, var(--color-black));
+    width: var(--inner-width, 4.8rem);
+    height: var(--inner-height, 5rem);
+    background-color: var(--button-bg-color, #000000);
     border-radius: 50%;
-    transition: left 1s ease, width 0.5s ease, height 0.5s ease;
+    transition: width 0.5s ease, height 0.5s ease, left 0.5s ease;
 }
 
-/* Hover состояние - белая кнопка, чёрная луна справа */
+/* Hover состояние - белая кнопка */
 .button:hover {
     background-color: #FFFFFF;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
 }
-
 
 .button__text {
     font-size: var(--font-size-20);
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-white);
-    position: relative;
-    z-index: 1;
+    position: static;
+    z-index: 2;
     transition: color 2s ease;
 }
 
 .button:hover .button__text {
     color: #000000;
+}
+
+/* Правая луна (внешний круг) - изначально спрятана за внутренним кругом */
+.button__text::before {
+    content: '';
+    position: absolute;
+    right: var(--moon-right-pos, 1.8rem);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5.2rem;
+    height: 5.2rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    clip-path: inset(0 0 0 50%);
+    transition: right 0.5s ease;
+    z-index: -1;
+}
+
+/* Правая луна при hover - черная */
+.button:hover .button__text::before {
+    background-color: #000000;
+}
+
+/* Правый внутренний круг - изначально увеличен на 2px (луна спрятана) */
+.button__text::after {
+    content: '';
+    position: absolute;
+    right: var(--inner-right-pos, 1.7rem);
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--inner-right-width, 5rem);
+    height: var(--inner-right-height, 5.2rem);
+    background-color: var(--button-bg-color, #000000);
+    border-radius: 50%;
+    transition: width 0.5s ease, height 0.5s ease, right 0.5s ease;
+    z-index: -1;
 }
 
 /* Benefits Section */
@@ -261,18 +298,23 @@ html {
     margin: 0 auto;
     padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) clamp(4rem, 6.94vw, 10rem);
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: clamp(3rem, 10.42vw, 15rem);
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: clamp(2rem, 5vw, 10rem);
 }
 
 .benefits__content {
-    flex: 1 1 40rem;
-    min-width: 30rem;
+    flex: 0 1 auto;
+    min-width: 0;
     max-width: 60.2rem;
     display: flex;
     flex-direction: column;
-    gap: clamp(3rem, 5.14vw, 7.4rem);
+    gap: clamp(3rem, 5vw, 7rem);
+}
+
+.benefits__content .button {
+    margin-top: auto;
 }
 
 .benefits__text-block {
@@ -282,11 +324,12 @@ html {
 }
 
 .benefits__main-text {
-    font-size: clamp(2rem, 2.22vw, 3.2rem);
+    font-size: clamp(2rem, 2.5vw, 3.2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
     text-transform: uppercase;
     color: var(--color-text-primary);
+    white-space: pre-line;
 }
 
 .benefits__list {
@@ -297,31 +340,34 @@ html {
 }
 
 .benefits__item {
-    font-size: var(--font-size-20);
+    font-size: clamp(1.8rem, 1.5vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-tertiary);
+    white-space: pre-line;
 }
 
 .benefits__gallery {
-    flex: 1 1 30rem;
-    min-width: 25rem;
+    flex: 0 1 auto;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: clamp(1rem, 1.5vw, 2rem);
+    justify-content: space-between;
+    margin-left: auto;
 }
 
 .benefits__gallery-item {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 2rem;
 }
 
 .benefits__gallery-image {
     flex: 0 0 auto;
-    width: 14rem;
-    height: 13rem;
+    width: clamp(10rem, 12vw, 16rem);
+    height: clamp(9rem, 11vw, 15rem);
     object-fit: cover;
     border-radius: var(--radius-10);
     border: 0.05rem solid var(--color-border);
@@ -333,8 +379,9 @@ html {
     line-height: var(--line-height-normal);
     text-transform: uppercase;
     color: var(--color-text-primary);
-    flex: 1 1 20rem;
-    min-width: 15rem;
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: pre-line;
 }
 
 /* About Section */
@@ -366,6 +413,7 @@ html {
 
 .about__text {
     text-align: center;
+    white-space: pre-line;
 }
 
 .about__text--main {
@@ -443,7 +491,8 @@ html {
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
-    text-align: center;
+    text-align: center;    
+    white-space: pre-line;
 }
 
 .scenarios__gallery {
@@ -551,6 +600,7 @@ html {
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);
+    white-space: pre-line;
 }
 
 .pricing__price {
@@ -607,6 +657,7 @@ html {
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);
+    white-space: pre-line;
 }
 
 .pricing__image-wrapper {
@@ -655,6 +706,7 @@ html {
     text-transform: uppercase;
     color: var(--color-text-primary);
     text-align: center;
+    white-space: pre-line;
 }
 
 .equipment__description {
@@ -663,6 +715,7 @@ html {
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
     text-align: center;
+    white-space: pre-line;
 }
 
 .equipment__gallery {
@@ -809,6 +862,7 @@ html {
 
 .stage-card__text {
     margin-top: auto;
+    white-space: pre-line;
 }
 
 .stage-card__title-wrapper {
@@ -838,6 +892,7 @@ html {
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);
     margin: 0;
+    white-space: pre-line;
 }
 
 .stage-card__text {
@@ -861,7 +916,12 @@ html {
     border-radius: var(--radius-20);
 }
 
-@media screen and (max-width: 119.9rem) {
+@media screen and (max-width: 1200px) {
+    :root {
+        --container-padding-percent: 2.5rem;
+    }
+   
+
     .hero__container {
         flex-wrap: nowrap;
         align-items: flex-start;
@@ -879,7 +939,7 @@ html {
     }
 
     .hero__description {
-        font-size: 2rem;
+        font-size: clamp(1.8rem, 1.5vw, 2rem);
     }
 
     .about__gallery {
@@ -906,21 +966,8 @@ html {
         font-size: clamp(2rem, 2.22vw, 3.2rem);
     }
 
-    .hero__description,
-    .about__text--secondary,
-    .stages__subtitle,
-    .scenarios__description,
-    .pricing__text,
-    .pricing__price,
-    .benefits__item,
-    .benefits__gallery-text,
-    .equipment__description,
-    .scenarios__label-text {
-        font-size: 2rem;
-    }
-
     .stage-card__text {
-        font-size: clamp(1.4rem, 1.39vw, 2rem);
+        font-size: clamp(1.4rem, 1.39vw, 1.6rem);
     }
 
     .button {
@@ -930,6 +977,27 @@ html {
 
     .button__text {
         font-size: 2rem;
+    }
+
+    /* Луна немного уменьшена для планшетов */
+    .button::before {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    .button::after {
+        width: var(--inner-width, 4.6rem);
+        height: var(--inner-height, 4.8rem);
+    }
+
+    .button__text::before {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    .button__text::after {
+        width: var(--inner-right-width, 4.8rem);
+        height: var(--inner-right-height, 5rem);
     }
 
     .stages__row {
@@ -970,10 +1038,63 @@ html {
         gap: 2rem;
     }
 
+    .benefits__container {
+        flex-wrap: nowrap;
+        gap: 3rem;
+        align-items: stretch;
+        justify-content: space-between;
+    }
+
+    .benefits__content {
+        flex: 0 1 auto;
+        min-width: 0;
+    }
+
+    .benefits__gallery {
+        flex: 0 0 auto;
+        min-width: 0;
+        margin-left: auto;
+    }
+
+    .benefits__gallery-image {
+        width: 12rem;
+        height: 11rem;
+    }
+
     .scenarios__item {
         flex: 1 1 calc(33.33% - 2rem);
         max-width: calc(33.33% - 2rem);
         min-width: 0;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .hero__container {
+        align-items: stretch;
+    }
+
+    .hero__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero__content .hero__text-block {
+        flex-grow: 1;
+    }
+
+    .hero__content .button {
+        align-self: flex-start;
+    }
+
+    .hero__image-wrapper {
+        display: flex;
+        align-items: flex-end;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    :root {
+        --container-padding-percent: 1.5rem;
     }
 }
 
@@ -1192,7 +1313,7 @@ html {
    MOBILE STYLES (< 600px)
    ============================================ */
 
-@media screen and (max-width: 60rem) {
+@media screen and (max-width: 600px) {
     
 
 
@@ -1205,7 +1326,36 @@ html {
         .scenarios__container,
         .benefits__container {
             padding: 1.5rem 1.5rem 3rem 1.5rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3rem;
         }
+
+        .benefits__content {
+            max-width: 100%;
+            display: contents;
+        }
+
+        .benefits__text-block {
+            order: 1;
+        }
+
+        .benefits__content .button {
+            order: 3;
+            margin-top: 0;
+        }
+
+        .benefits__gallery {
+            margin-left: 0;
+            width: 100%;
+            order: 2;
+        }
+
+        .benefits__gallery-image {
+            width: 12rem;
+            height: 11rem;
+        }
+
         /* Все кнопки */
         .button {
             width: 21rem;
@@ -1234,6 +1384,34 @@ html {
             white-space: nowrap;
         }
 
+        /* Левая луна - уменьшенная для мобильных */
+        .button::before {
+            width: 4.2rem;
+            height: 4.2rem;
+            left: var(--moon-left, 0.6rem);
+        }
+
+        /* Левый внутренний круг - уменьшенный */
+        .button::after {
+            width: var(--inner-width, 3.8rem);
+            height: var(--inner-height, 4rem);
+            left: var(--inner-left, 1.4rem);
+        }
+
+        /* Правая луна - уменьшенная */
+        .button__text::before {
+            width: 4.2rem;
+            height: 4.2rem;
+            right: var(--moon-right-pos, 1.4rem);
+        }
+
+        /* Правый внутренний круг - уменьшенный */
+        .button__text::after {
+            width: var(--inner-right-width, 4rem);
+            height: var(--inner-right-height, 4.2rem);
+            right: var(--inner-right-pos, 1.3rem);
+        }
+
         .about__text {
             text-align: left;
         }
@@ -1244,7 +1422,7 @@ html {
         }
 
         .hero__description{
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 1.5vw, 2rem);
         }
 
         .about__text,
@@ -1255,7 +1433,6 @@ html {
         .scenarios__label-text,
         .pricing__text,
         .pricing__price,
-        .benefits__item,
         .benefits__gallery-text,
         .equipment__description {
             font-size: 1.8rem;
@@ -1309,6 +1486,7 @@ html {
         .stages__slider-container {
             display: block;
             width: 100%;
+            min-height: 30rem;
             position: relative;
             overflow: hidden;
         }
@@ -1330,37 +1508,28 @@ html {
             justify-content: center;
             align-items: flex-start;
             box-sizing: border-box;
-            padding: 0;
+            padding: 0 1rem;
             margin: 0;
         }
 
-        .stages__slide .stage-card {
-            width: 33rem;
-            min-width: 33rem;
+        .stages__slide .stage-card,
+        .stages__slide .stage-card--wide {
+            width: 100%;
             max-width: 33rem;
-            height: 29rem;
-            margin: 0;
-            padding: 0;
-            flex-shrink: 0;
-        }
-
-        .stage-card {
-            flex: 0 0 33rem;
-            width: 33rem;
-            min-width: 33rem;
-            max-width: 33rem;
-            height: 29rem;
+            min-width: 0;
+            height: auto;
             min-height: 29rem;
             margin: 0;
             padding: 0;
+            flex-shrink: 1;
         }
 
+        .stage-card,
         .stage-card--wide {
-            flex: 0 0 31rem;
-            width: 31rem;
-            min-width: 31rem;
-            max-width: 31rem;
-            height: 29rem;
+            width: 100%;
+            max-width: 33rem;
+            min-width: 0;
+            height: auto;
             min-height: 29rem;
             margin: 0;
             padding: 0;
@@ -1474,6 +1643,7 @@ html {
         .scenarios__description {
             text-align: left;
             align-self: stretch;
+            white-space: pre-line;
         }
 
         .scenarios__gallery {
@@ -1516,5 +1686,6 @@ html {
         }
     }
     
+
 
 
