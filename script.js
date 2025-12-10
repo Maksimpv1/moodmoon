@@ -255,126 +255,148 @@ function handleAboutSection() {
 window.addEventListener('load', handleAboutSection);
 window.addEventListener('resize', handleAboutSection);
 
-// Stages slider for mobile
+// Слайдер карточек этапов для мобильных
 function initStagesSlider() {
     const stagesContent = document.querySelector('.stages__content');
     if (!stagesContent) return;
 
     const isMobile = window.innerWidth < 600;
-    const sliderContainer = stagesContent.querySelector('.stages__slider-container');
-    const sliderWrapper = stagesContent.querySelector('.stages__slider-wrapper');
-    const indicator = stagesContent.querySelector('.stages__slider-indicator');
-
-    if (!sliderContainer || !sliderWrapper || !indicator) return;
-
-    // Always stop previous interval
-    if (stagesSliderInterval) {
-        clearInterval(stagesSliderInterval);
-        stagesSliderInterval = null;
-    }
+    const existingSlider = stagesContent.querySelector('.stages__slider');
+    const rows = stagesContent.querySelectorAll('.stages__row');
 
     if (isMobile) {
-        const allRows = stagesContent.querySelectorAll('.stages__row');
-        const cardsArray = [];
+        // Скрываем ряды
+        rows.forEach(row => row.style.display = 'none');
 
-        allRows.forEach(row => {
-            const cards = row.querySelectorAll('.stage-card');
-            cards.forEach(card => cardsArray.push(card));
+        // Если слайдер уже есть - выходим
+        if (existingSlider) return;
+
+        // Собираем карточки
+        const cards = [];
+        rows.forEach(row => {
+            row.querySelectorAll('.stage-card').forEach(card => cards.push(card));
         });
 
-        if (cardsArray.length === 0) return;
+        if (cards.length === 0) return;
 
-        sliderContainer.style.display = 'block';
-        allRows.forEach(row => row.style.display = 'none');
+        // Создаём слайдер
+        const slider = document.createElement('div');
+        slider.className = 'stages__slider';
 
-        // Rebuild every time to ensure correct layout
-        sliderWrapper.innerHTML = '';
-        indicator.innerHTML = '';
+        const track = document.createElement('div');
+        track.className = 'stages__slider-track';
 
-        cardsArray.forEach((card, index) => {
+        const dots = document.createElement('div');
+        dots.className = 'stages__dots';
+
+        cards.forEach((card, i) => {
             const slide = document.createElement('div');
             slide.className = 'stages__slide';
-
-            const clonedCard = card.cloneNode(true);
-            slide.appendChild(clonedCard);
-            sliderWrapper.appendChild(slide);
+            slide.appendChild(card.cloneNode(true));
+            track.appendChild(slide);
 
             const dot = document.createElement('div');
-            dot.className = 'stages__indicator-dot';
-            if (index === 0) dot.classList.add('stages__indicator-dot--active');
-            indicator.appendChild(dot);
+            dot.className = 'stages__dot' + (i === 0 ? ' stages__dot--active' : '');
+            dot.dataset.index = i;
+            dots.appendChild(dot);
         });
 
-        startStagesSlider(sliderWrapper, indicator);
+        slider.appendChild(track);
+        slider.appendChild(dots);
+        stagesContent.appendChild(slider);
+
+        // Инициализируем свайп
+        initSwipe(slider, track, dots, cards.length);
     } else {
-        sliderContainer.style.display = 'none';
-        const allRows = stagesContent.querySelectorAll('.stages__row');
-        allRows.forEach(row => row.style.display = 'flex');
-        sliderWrapper.innerHTML = '';
-        indicator.innerHTML = '';
+        // На десктопе удаляем слайдер и показываем ряды
+        if (existingSlider) {
+            existingSlider.remove();
+        }
+        rows.forEach(row => row.style.display = '');
     }
 }
 
-let stagesSliderInterval = null;
+function initSwipe(slider, track, dotsContainer, total) {
+    let current = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let autoplayInterval = null;
 
-function startStagesSlider(wrapper, indicator) {
-    if (stagesSliderInterval) {
-        clearInterval(stagesSliderInterval);
-    }
+    const dots = dotsContainer.querySelectorAll('.stages__dot');
 
-    const slides = wrapper.querySelectorAll('.stages__slide');
-    const dots = indicator.querySelectorAll('.stages__indicator-dot');
-    if (slides.length === 0) return;
-
-    let currentIndex = 0;
-
-    function updateSlider() {
-        wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-        dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add('stages__indicator-dot--active');
-            } else {
-                dot.classList.remove('stages__indicator-dot--active');
-            }
+    function goTo(index) {
+        current = Math.max(0, Math.min(index, total - 1));
+        track.style.transform = `translateX(-${current * 100}%)`;
+        
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('stages__dot--active', i === current);
         });
     }
 
-    // Set initial position without animation to avoid jump
-    wrapper.style.transition = 'none';
-    wrapper.style.transform = 'translateX(0)';
-    wrapper.offsetHeight; // force reflow
-    wrapper.style.transition = 'transform 0.5s ease-in-out';
+    function nextSlide() {
+        goTo((current + 1) % total);
+    }
 
-    // Initial dots state
-    dots.forEach((dot, index) => {
-        if (index === 0) {
-            dot.classList.add('stages__indicator-dot--active');
-        } else {
-            dot.classList.remove('stages__indicator-dot--active');
+    function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
         }
+    }
+
+    // Touch events
+    track.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        track.style.transition = 'none';
+        stopAutoplay();
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+        const offset = -current * 100 + (diff / slider.offsetWidth) * 100;
+        track.style.transform = `translateX(${offset}%)`;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.transition = 'transform 0.3s ease-out';
+        
+        const diff = currentX - startX;
+        const threshold = slider.offsetWidth * 0.2;
+
+        if (diff > threshold && current > 0) {
+            goTo(current - 1);
+        } else if (diff < -threshold && current < total - 1) {
+            goTo(current + 1);
+        } else {
+            goTo(current);
+        }
+
+        startAutoplay();
     });
 
-    // initial state without animation
-    wrapper.style.transition = 'none';
-    wrapper.style.transform = 'translateX(0)';
-    wrapper.offsetHeight; // force reflow
-    wrapper.style.transition = 'transform 0.5s ease-in-out';
-    updateSlider();
+    // Клик по точкам
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            goTo(parseInt(dot.dataset.index));
+            startAutoplay();
+        });
+    });
 
-    stagesSliderInterval = setInterval(() => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateSlider();
-    }, 3000);
+    goTo(0);
+    startAutoplay();
 }
 
-function handleStagesSection() {
-    initStagesSlider();
-}
-
-window.addEventListener('load', handleStagesSection);
-window.addEventListener('resize', () => {
-    clearTimeout(window.stagesResizeTimer);
-    window.stagesResizeTimer = setTimeout(handleStagesSection, 200);
-});
+window.addEventListener('load', initStagesSlider);
+window.addEventListener('resize', initStagesSlider);
 

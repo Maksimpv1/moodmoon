@@ -147,14 +147,16 @@ html {
 
 .hero__title {
     font-size: clamp(2.8rem, 4.17vw, 6rem);
+    font-size:6rem ;
     font-weight: 700;
     line-height: var(--line-height-title);
     color: var(--color-text-primary);
+    max-width: 56.8rem;    
     white-space: pre-line;
 }
 
 .hero__description {
-    font-size: clamp(1.8rem, 1.5vw, 2rem);
+    font-size: clamp(1.4rem, 1.39vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
@@ -939,7 +941,7 @@ html {
     }
 
     .hero__description {
-        font-size: clamp(1.8rem, 1.5vw, 2rem);
+        font-size: 2rem;
     }
 
     .about__gallery {
@@ -1065,30 +1067,6 @@ html {
         flex: 1 1 calc(33.33% - 2rem);
         max-width: calc(33.33% - 2rem);
         min-width: 0;
-    }
-}
-
-@media screen and (max-width: 1024px) {
-    .hero__container {
-        align-items: stretch;
-    }
-
-    .hero__content {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .hero__content .hero__text-block {
-        flex-grow: 1;
-    }
-
-    .hero__content .button {
-        align-self: flex-start;
-    }
-
-    .hero__image-wrapper {
-        display: flex;
-        align-items: flex-end;
     }
 }
 
@@ -1422,7 +1400,7 @@ html {
         }
 
         .hero__description{
-            font-size: clamp(1.8rem, 1.5vw, 2rem);
+            font-size: 2rem;
         }
 
         .about__text,
@@ -1479,82 +1457,79 @@ html {
             display: none;
         }
 
+        .stages__container {
+            align-items: center !important;
+        }
+
+        .stages__content {
+            width: 100%;
+            overflow: hidden;
+        }
+
         .stages__row {
             display: none;
         }
 
-        .stages__slider-container {
-            display: block;
+        .stages__slider {
             width: 100%;
-            min-height: 30rem;
-            position: relative;
             overflow: hidden;
+            position: relative;
         }
 
-        .stages__slider-wrapper {
+        .stages__slider-track {
             display: flex;
-            transition: transform 0.5s ease-in-out;
-            width: 100%;
-            gap: 0;
-            margin: 0;
-            padding: 0;
+            transition: transform 0.3s ease-out;
+            touch-action: pan-y pinch-zoom;
         }
 
         .stages__slide {
             flex: 0 0 100%;
             width: 100%;
-            min-width: 100%;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            box-sizing: border-box;
             padding: 0 1rem;
-            margin: 0;
+            box-sizing: border-box;
         }
 
         .stages__slide .stage-card,
         .stages__slide .stage-card--wide {
-            width: 100%;
-            max-width: 33rem;
-            min-width: 0;
+            width: 100% !important;
+            max-width: 33rem !important;
             height: auto;
-            min-height: 29rem;
-            margin: 0;
-            padding: 0;
-            flex-shrink: 1;
+            min-height: 25rem;
         }
 
-        .stage-card,
-        .stage-card--wide {
-            width: 100%;
-            max-width: 33rem;
-            min-width: 0;
-            height: auto;
-            min-height: 29rem;
-            margin: 0;
-            padding: 0;
+        .stages__slide .stage-card__title {
+            font-size: 1.8rem;
         }
 
-        .stages__slider-indicator {
+        .stages__slide .stage-card__text {
+            font-size: 1.6rem;
+        }
+
+        .stage-card__image {
+            display: none;
+        }
+
+        .stages__dots {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 0.8rem;
             margin-top: 2rem;
         }
 
-        .stages__indicator-dot {
+        .stages__dot {
             width: 0.8rem;
             height: 0.8rem;
             border-radius: 50%;
             background-color: rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .stages__indicator-dot--active {
-            width: 2.2rem;
-            height: 0.4rem;
-            border-radius: 0.2rem;
+        .stages__dot--active {
+            width: 2.4rem;
+            border-radius: 0.4rem;
             background-color: #535353;
         }
         .pricing__list-dot{
