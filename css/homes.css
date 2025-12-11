@@ -1,0 +1,615 @@
+/* ==================== HOMES PAGE SPECIFIC STYLES ==================== */
+
+/* Hero Section - Homes Page */
+.hero-homes {
+    width: 100%;
+    height: 100vh;
+    min-height: 67.7rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.hero-homes__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-homes__bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-homes__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 4rem var(--container-padding-percent) 6rem;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-homes__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-homes__title {
+    font-size: 6rem;
+    font-weight: 600;
+    line-height: 1.15em;
+    color: var(--color-white);
+    text-align: center;
+    white-space: pre-line;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* About Section - Homes Page */
+.about-homes {
+    width: 100%;
+    background-color: var(--color-white);
+}
+
+.about-homes__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: clamp(5.5rem, 7.64vw, 11rem) var(--container-padding-percent) clamp(3rem, 3.82vw, 5.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.about-homes__content {
+    width: 100%;
+    max-width: 90.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-16);
+}
+
+.about-homes__text {
+    text-align: center;
+    white-space: pre-line;
+}
+
+.about-homes__text--main,
+.about-homes__text--main_mobile {
+    font-size: clamp(2rem, 2.22vw, 3.2rem);
+    font-weight: 500;
+    line-height: var(--line-height-normal);
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+}
+
+.about-homes__text--secondary,
+.about-homes__text--secondary_mobile {
+    font-size: clamp(1.4rem, 1.39vw, 2rem);
+    font-weight: 500;
+    line-height: var(--line-height-normal);
+    color: var(--color-text-secondary);
+    max-width: 62.4rem;
+    width: 100%;
+}
+
+.about-homes__text--main_mobile,
+.about-homes__text--secondary_mobile {
+    display: none;
+}
+
+.about-homes__gallery {
+    width: 100%;
+    max-width: 117rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8.8rem;
+}
+
+.about-homes__gallery-image {
+    object-fit: cover;
+    border-radius: var(--radius-10);
+}
+
+.about-homes__gallery-image--large {
+    width: 68.2rem;
+    max-width: 100%;
+    aspect-ratio: 682 / 471;
+}
+
+.about-homes__gallery-image--small {
+    width: 40rem;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+/* Know How Section */
+.knowhow {
+    width: 100%;
+    background-color: var(--color-white);
+    overflow: hidden;
+}
+
+.knowhow__header {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) 2.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-10);
+}
+
+.knowhow__title,
+.knowhow__title_mobile {
+    font-size: clamp(3.2rem, 4.44vw, 6.4rem);
+    font-weight: 500;
+    line-height: 1.03em;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    white-space: pre-line;
+    max-width: 84.4rem;
+    width: 100%;
+}
+
+.knowhow__title_mobile {
+    display: none;
+}
+
+.knowhow__description {
+    font-size: var(--font-size-20);
+    font-weight: 500;
+    line-height: var(--line-height-normal);
+    color: var(--color-text-primary);
+    max-width: 43rem;
+    width: 100%;
+    text-align: left;
+    align-self: flex-start;
+    margin-left: calc((84.4rem - 43rem) / 2);
+}
+
+.knowhow__gallery {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-percent) clamp(3rem, 3.82vw, 5.5rem);
+    position: relative;
+    overflow: hidden;
+}
+
+.knowhow__gallery-track {
+    display: flex;
+    gap: 2rem;
+    transition: transform 0.5s ease-out;
+    touch-action: pan-y pinch-zoom;
+}
+
+.knowhow__gallery-image {
+    flex: 0 0 calc(100% - 1rem);
+    width: calc(100% - 1rem);
+    height: 65.7rem;
+    object-fit: cover;
+    border-radius: var(--radius-10);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.knowhow__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+}
+
+.knowhow__dot {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.knowhow__dot--active {
+    width: 2.4rem;
+    border-radius: 0.4rem;
+    background-color: #535353;
+}
+
+/* Equipment Section - Homes Page */
+.equipment-homes {
+    width: 100%;
+    background-color: var(--color-white);
+}
+
+.equipment-homes__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) clamp(2rem, 2.22vw, 3.2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(2rem, 2.22vw, 3.2rem);
+}
+
+.equipment-homes__content {
+    width: 100%;
+    max-width: 67.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-16);
+}
+
+.equipment-homes__title {
+    font-size: clamp(2rem, 2.22vw, 3.2rem);
+    font-weight: 700;
+    line-height: var(--line-height-normal);
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    text-align: center;
+}
+
+.equipment-homes__description,
+.equipment-homes__description_mobile {
+    font-size: clamp(1.4rem, 1.39vw, 2rem);
+    font-weight: 500;
+    line-height: var(--line-height-normal);
+    color: var(--color-text-secondary);
+    text-align: center;
+    white-space: pre-line;
+}
+
+.equipment-homes__description_mobile {
+    display: none;
+}
+
+.equipment-homes__gallery {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.equipment-homes__gallery-image {
+    width: clamp(15rem, 20vw, 28.5rem);
+    height: clamp(15rem, 20vw, 28.5rem);
+    object-fit: cover;
+    border-radius: var(--radius-10);
+}
+
+/* Equipment Logos Strip */
+.equipment-logos {
+    width: 100%;
+    padding: 0.8rem var(--container-padding-percent);
+    overflow: hidden;
+}
+
+.equipment-logos__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+.equipment-logos__strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.8rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.equipment-logos__strip::-webkit-scrollbar {
+    display: none;
+}
+
+.equipment-logos__logo {
+    height: clamp(2rem, 3vw, 5rem);
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.7);
+    transition: filter 0.3s ease;
+}
+
+.equipment-logos__logo:hover {
+    filter: grayscale(0%) opacity(1);
+}
+
+/* Scenarios Section - Homes Page */
+.scenarios-homes {
+    width: 100%;
+    background-color: var(--color-white);
+}
+
+.scenarios-homes__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: clamp(5.5rem, 7.64vw, 11rem) var(--container-padding-percent) clamp(3rem, 3.82vw, 5.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(2rem, 2.22vw, 3.2rem);
+}
+
+.scenarios-homes__header {
+    width: 100%;
+    max-width: 72.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-16);
+}
+
+.scenarios-homes__title {
+    font-size: clamp(2.4rem, 2.78vw, 4rem);
+    font-weight: 700;
+    line-height: var(--line-height-normal);
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    text-align: center;
+}
+
+.scenarios-homes__description,
+.scenarios-homes__description_mobile {
+    font-size: clamp(1.4rem, 1.39vw, 2rem);
+    font-weight: 500;
+    line-height: var(--line-height-normal);
+    color: var(--color-text-secondary);
+    text-align: center;
+    white-space: pre-line;
+}
+
+.scenarios-homes__description_mobile {
+    display: none;
+}
+
+.scenarios-homes__gallery {
+    display: flex;
+    justify-content: center;
+    gap: clamp(2rem, 2.22vw, 3.2rem);
+    width: 100%;
+    max-width: 117rem;
+}
+
+.scenarios-homes__item {
+    flex: 1 1 28rem;
+    min-width: 25rem;
+    max-width: 36.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-16);
+}
+
+.scenarios-homes__image {
+    width: 100%;
+    aspect-ratio: 368 / 421;
+    object-fit: cover;
+    border-radius: var(--radius-10);
+}
+
+.scenarios-homes__label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
+}
+
+.scenarios-homes__label-text {
+    font-size: var(--font-size-20);
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+    color: var(--color-black);
+}
+
+/* ==================== RESPONSIVE - TABLET ==================== */
+@media screen and (max-width: 1200px) {
+    .hero-homes__title {
+        font-size: clamp(3.2rem, 4.17vw, 6rem);
+    }
+
+    .knowhow__container {
+        padding-right: var(--container-padding-percent);
+    }
+
+    .knowhow__gallery {
+        flex-wrap: wrap;
+    }
+
+    .knowhow__gallery-image--large {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .knowhow__gallery-image--small {
+        flex: 1 1 48%;
+        max-width: 48%;
+    }
+
+    .scenarios-homes__gallery {
+        flex-wrap: nowrap;
+    }
+
+    .scenarios-homes__item {
+        flex: 1 1 calc(33.33% - 2rem);
+        max-width: calc(33.33% - 2rem);
+        min-width: 0;
+    }
+}
+
+/* ==================== RESPONSIVE - MOBILE ==================== */
+@media screen and (max-width: 600px) {
+    .hero-homes {
+        height: 100vh;
+        height: 100dvh; /* dynamic viewport height для мобильных */
+        min-height: 50rem;
+    }
+
+    .hero-homes__title {
+        font-size: 2.4rem;
+    }
+
+    .hero-homes__container {
+        padding-bottom: 4rem;
+    }
+
+    .hero-homes__container,
+    .about-homes__container,
+    .knowhow__container,
+    .equipment-homes__container,
+    .scenarios-homes__container {
+        padding: 1.5rem 1.5rem 3rem 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3rem;
+    }
+
+    .about-homes__text--main,
+    .about-homes__text--secondary {
+        display: none !important;
+    }
+
+    .about-homes__text--main_mobile,
+    .about-homes__text--secondary_mobile {
+        display: block !important;
+    }
+
+    .about-homes__text,
+    .about-homes__text--main_mobile,
+    .about-homes__text--secondary_mobile {
+        text-align: left;
+    }
+
+    .about-homes__content {
+        align-items: flex-start;
+    }
+
+    .about-homes__gallery {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .about-homes__gallery-image--large,
+    .about-homes__gallery-image--small {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .about-homes__gallery-image--large {
+        aspect-ratio: 330 / 230;
+    }
+
+    .about-homes__gallery-image--small {
+        aspect-ratio: 1 / 1;
+    }
+
+    .knowhow__header {
+        padding: 1.5rem 1.5rem 2rem;
+    }
+
+    .knowhow__title {
+        display: none !important;
+    }
+
+    .knowhow__title_mobile {
+        display: block !important;
+        font-size: 2.4rem;
+    }
+
+    .knowhow__description {
+        font-size: 1.8rem;
+        margin-left: 0;
+        text-align: left;
+    }
+
+    .knowhow__gallery {
+        padding: 0 1.5rem 3rem;
+    }
+
+    .knowhow__gallery-image {
+        height: 35rem;
+    }
+
+    .equipment-homes__description {
+        display: none !important;
+    }
+
+    .equipment-homes__description_mobile {
+        display: block !important;
+    }
+
+    .equipment-homes__content {
+        align-items: flex-start;
+    }
+
+    .equipment-homes__title,
+    .equipment-homes__description_mobile {
+        text-align: left;
+    }
+
+    .equipment-homes__gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem;
+    }
+
+    .equipment-homes__gallery-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .equipment-logos__strip {
+        gap: 1.2rem;
+    }
+
+    .equipment-logos__logo {
+        height: 2rem;
+    }
+
+    .scenarios-homes__description {
+        display: none !important;
+    }
+
+    .scenarios-homes__description_mobile {
+        display: block !important;
+    }
+
+    .scenarios-homes__header {
+        align-items: flex-start;
+    }
+
+    .scenarios-homes__title,
+    .scenarios-homes__description_mobile {
+        text-align: left;
+    }
+
+    .scenarios-homes__gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .scenarios-homes__item {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .scenarios-homes__label {
+        justify-content: flex-start;
+        width: 100%;
+        padding-left: var(--spacing-16);
+    }
+}
+
+

@@ -496,3 +496,150 @@ if (consultForm) {
         showSuccess();
     });
 }
+
+// ==================== KNOWHOW GALLERY SLIDER ====================
+function initKnowhowGallery() {
+    const gallery = document.querySelector('.knowhow__gallery');
+    if (!gallery) return;
+
+    const track = gallery.querySelector('.knowhow__gallery-track');
+    const dots = gallery.querySelectorAll('.knowhow__dot');
+    const images = gallery.querySelectorAll('.knowhow__gallery-image');
+    
+    if (!track || images.length === 0) return;
+
+    const total = images.length;
+    let current = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let autoplayInterval = null;
+
+    function goTo(index) {
+        current = Math.max(0, Math.min(index, total - 1));
+        // Учитываем gap между слайдами
+        const slideWidth = images[0].offsetWidth;
+        const gap = 20; // 2rem = 20px
+        const offset = current * (slideWidth + gap);
+        track.style.transform = `translateX(-${offset}px)`;
+        
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('knowhow__dot--active', i === current);
+        });
+    }
+
+    function nextSlide() {
+        goTo((current + 1) % total);
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+    }
+
+    const gap = 20; // 2rem = 20px
+
+    function getSlideOffset() {
+        const slideWidth = images[0].offsetWidth;
+        return current * (slideWidth + gap);
+    }
+
+    // Touch events
+    track.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        track.style.transition = 'none';
+        stopAutoplay();
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+        const offset = getSlideOffset() - diff;
+        track.style.transform = `translateX(-${offset}px)`;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.transition = 'transform 0.5s ease-out';
+        
+        const diff = currentX - startX;
+        const threshold = gallery.offsetWidth * 0.15;
+
+        if (diff > threshold && current > 0) {
+            goTo(current - 1);
+        } else if (diff < -threshold && current < total - 1) {
+            goTo(current + 1);
+        } else {
+            goTo(current);
+        }
+
+        startAutoplay();
+    });
+
+    // Mouse drag events
+    let mouseStartX = 0;
+    let mouseCurrentX = 0;
+    let isMouseDragging = false;
+
+    track.addEventListener('mousedown', (e) => {
+        isMouseDragging = true;
+        mouseStartX = e.clientX;
+        track.style.transition = 'none';
+        track.style.cursor = 'grabbing';
+        stopAutoplay();
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isMouseDragging) return;
+        mouseCurrentX = e.clientX;
+        const diff = mouseCurrentX - mouseStartX;
+        const offset = getSlideOffset() - diff;
+        track.style.transform = `translateX(-${offset}px)`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (!isMouseDragging) return;
+        isMouseDragging = false;
+        track.style.transition = 'transform 0.5s ease-out';
+        track.style.cursor = 'grab';
+        
+        const diff = mouseCurrentX - mouseStartX;
+        const threshold = gallery.offsetWidth * 0.15;
+
+        if (diff > threshold && current > 0) {
+            goTo(current - 1);
+        } else if (diff < -threshold && current < total - 1) {
+            goTo(current + 1);
+        } else {
+            goTo(current);
+        }
+
+        startAutoplay();
+    });
+
+    // Dot clicks
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            goTo(parseInt(dot.dataset.index));
+            startAutoplay();
+        });
+    });
+
+    // Initial setup
+    track.style.cursor = 'grab';
+    goTo(0);
+    startAutoplay();
+}
+
+window.addEventListener('load', initKnowhowGallery);

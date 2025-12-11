@@ -1,0 +1,177 @@
+:root {
+    /* Colors */
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+    --color-text-primary: #121212;
+    --color-text-secondary: #484848;
+    --color-text-tertiary: #565555;
+    --color-text-light: rgba(255, 255, 255, 0.6);
+    --color-text-light-secondary: rgba(255, 255, 255, 0.35);
+    --color-gray: #757575;
+    --color-gray-light: #848484;
+    --color-gray-dark: #2C2C2C;
+    --color-bg-light: #FBFAF8;
+    --color-orange-20: rgba(166, 105, 70, 0.2);
+    --color-orange-40: rgba(166, 105, 70, 0.4);
+    --color-orange-60: rgba(166, 105, 70, 0.6);
+    --color-orange-80: rgba(166, 105, 70, 0.8);
+    --color-brown: #A66946;
+    --color-dark-brown: #A55B30;
+    --color-blue: #306FDB;
+    --color-border: rgba(0, 0, 0, 0.18);
+    --color-icon-border: #323232;
+
+    /* Typography */
+    --font-family-primary: 'Inter', sans-serif;
+    --font-family-logo: 'MADE Voyager PERSONAL USE', sans-serif;
+    --font-family-title: 'Uncut Sans', sans-serif;
+
+    /* Font Sizes */
+    --font-size-12: 1.2rem;
+    --font-size-14: 1.4rem;
+    --font-size-16: 1.6rem;
+    --font-size-18: 1.8rem;
+    --font-size-20: 2rem;
+    --font-size-24: 2.4rem;
+    --font-size-32: 3.2rem;
+    --font-size-40: 4rem;
+    --font-size-60: 6rem;
+
+    /* Line Heights */
+    --line-height-tight: 1em;
+    --line-height-normal: 1.21em;
+    --line-height-relaxed: 1.25em;
+    --line-height-loose: 1.37em;
+    --line-height-title: 1.2em;
+
+    /* Spacing */
+    --spacing-8: 0.8rem;
+    --spacing-10: 1rem;
+    --spacing-12: 1.2rem;
+    --spacing-16: 1.6rem;
+    --spacing-24: 2.4rem;
+    --spacing-30: 3rem;
+    --spacing-32: 3.2rem;
+    --spacing-36: 3.6rem;
+    --spacing-42: 4.2rem;
+    --spacing-54: 5.4rem;
+    --spacing-55: 5.5rem;
+    --spacing-60: 6rem;
+    --spacing-74: 7.4rem;
+    --spacing-84: 8.4rem;
+    --spacing-100: 10rem;
+    --spacing-118: 11.8rem;
+    --spacing-130: 13rem;
+    --spacing-135: 13.5rem;
+    --spacing-150: 15rem;
+    --spacing-33: 3.3rem;
+    --spacing-64: 6.4rem;
+
+    /* Layout */
+    --container-width: 144rem;
+    --container-padding: 13.5rem;
+    --container-padding-percent: clamp(1.6rem, 9.375vw, 13.5rem);
+
+    /* Border Radius */
+    --radius-10: 1rem;
+    --radius-20: 2rem;
+    --radius-30: 3rem;
+
+    /* Button */
+    --button-height: 6rem;
+    --button-padding: 1.8rem 3.6rem;
+    --button-border-radius: 3rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+body {
+    font-family: var(--font-family-primary);
+    color: var(--color-text-primary);
+    background-color: var(--color-white);
+    line-height: var(--line-height-normal);
+    font-size: var(--font-size-20);
+    font-weight: 500;
+    overflow-x: hidden;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+/* Мобильные версии текстов - скрыты по умолчанию */
+.hero__description_mobile,
+.about__text--main_mobile,
+.about__text--secondary_mobile,
+.stages__title_mobile,
+.stage-card__text_mobile,
+.pricing__text_mobile,
+.equipment__description_mobile,
+.scenarios__description_mobile,
+.benefits__main-text_mobile,
+.benefits__item_mobile {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    :root {
+        --container-padding-percent: 2.5rem;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    :root {
+        --container-padding-percent: 1.5rem;
+    }
+}
+
+/* ============================================
+   MOBILE STYLES (< 600px)
+   ============================================ */
+
+@media screen and (max-width: 600px) {
+    /* Масштабирование всех rem пропорционально ширине экрана */
+    html {
+        font-size: clamp(8px, 2.67vw, 10px);
+    }
+
+    /* Переключение текстов на мобильные версии */
+    .hero__description,
+    .about__text--main,
+    .about__text--secondary,
+    .stages__title,
+    .stage-card__text,
+    .pricing__text,
+    .equipment__description,
+    .scenarios__description,
+    .benefits__main-text,
+    .benefits__item {
+        display: none !important;
+    }
+
+    .hero__description_mobile,
+    .about__text--main_mobile,
+    .about__text--secondary_mobile,
+    .stages__title_mobile,
+    .stage-card__text_mobile,
+    .pricing__text_mobile,
+    .equipment__description_mobile,
+    .scenarios__description_mobile,
+    .benefits__main-text_mobile,
+    .benefits__item_mobile {
+        display: block !important;
+    }
+}
+
+
