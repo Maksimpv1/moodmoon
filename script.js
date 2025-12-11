@@ -15,13 +15,43 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Button click handlers
 document.querySelectorAll('.button').forEach(button => {
     button.addEventListener('click', function() {
-        console.log('Консультация запрошена');
+        // Open modal form
+        if (typeof openModal === 'function') {
+            openModal();
+        }
+    });
+
+    // Pressed state handlers
+    button.addEventListener('mousedown', function() {
+        button.classList.add('button--pressed');
+        // Сразу синхронизируем цвет внутренних кругов с цветом нажатой кнопки
+        button.style.setProperty('--button-bg-color', '#2C2C2C');
+    });
+
+    button.addEventListener('mouseup', function() {
+        button.classList.remove('button--pressed');
+    });
+
+    button.addEventListener('mouseleave', function() {
+        button.classList.remove('button--pressed');
+    });
+
+    // Touch support
+    button.addEventListener('touchstart', function() {
+        button.classList.add('button--pressed');
+        button.style.setProperty('--button-bg-color', '#2C2C2C');
+    });
+
+    button.addEventListener('touchend', function() {
+        button.classList.remove('button--pressed');
     });
 
     // Синхронизация цвета ::after с цветом фона кнопки в реальном времени
     function syncBgColor() {
-        const bgColor = getComputedStyle(button).backgroundColor;
-        button.style.setProperty('--button-bg-color', bgColor);
+        if (!button.classList.contains('button--pressed')) {
+            const bgColor = getComputedStyle(button).backgroundColor;
+            button.style.setProperty('--button-bg-color', bgColor);
+        }
         requestAnimationFrame(syncBgColor);
     }
     syncBgColor();
@@ -158,18 +188,25 @@ function rearrangeAboutSection() {
     const aboutContent = document.querySelector('.about__content');
     const aboutGallery = document.querySelector('.about__gallery');
     const aboutTextSecondary = document.querySelector('.about__text--secondary');
+    const aboutTextSecondaryMobile = document.querySelector('.about__text--secondary_mobile');
     
-    if (!aboutContainer || !aboutContent || !aboutGallery || !aboutTextSecondary) return;
+    if (!aboutContainer || !aboutContent || !aboutGallery) return;
     
     if (window.innerWidth < 600) {
         // Перемещаем вторичный текст после галереи
-        if (aboutTextSecondary.parentNode === aboutContent) {
+        if (aboutTextSecondary && aboutTextSecondary.parentNode === aboutContent) {
             aboutContainer.insertBefore(aboutTextSecondary, aboutGallery.nextSibling);
+        }
+        if (aboutTextSecondaryMobile && aboutTextSecondaryMobile.parentNode === aboutContent) {
+            aboutContainer.insertBefore(aboutTextSecondaryMobile, aboutGallery.nextSibling);
         }
     } else {
         // Возвращаем вторичный текст обратно в content
-        if (aboutTextSecondary.parentNode === aboutContainer) {
+        if (aboutTextSecondary && aboutTextSecondary.parentNode === aboutContainer) {
             aboutContent.appendChild(aboutTextSecondary);
+        }
+        if (aboutTextSecondaryMobile && aboutTextSecondaryMobile.parentNode === aboutContainer) {
+            aboutContent.appendChild(aboutTextSecondaryMobile);
         }
     }
 }
@@ -184,7 +221,6 @@ function initAboutSlider() {
 
     const isMobile = window.innerWidth < 600;
     const existingSlider = aboutGallery.querySelector('.about__gallery-slider');
-    const existingWrapper = aboutGallery.querySelector('.about__gallery-slider-wrapper');
 
     if (isMobile) {
         // Создаем слайдер если его еще нет
@@ -400,3 +436,63 @@ function initSwipe(slider, track, dotsContainer, total) {
 window.addEventListener('load', initStagesSlider);
 window.addEventListener('resize', initStagesSlider);
 
+// ==================== MODAL ====================
+const modal = document.getElementById('contactModal');
+const modalForm = document.getElementById('modalForm');
+const modalSuccess = document.getElementById('modalSuccess');
+const consultForm = document.getElementById('consultForm');
+const modalCloseBtn = document.getElementById('modalClose');
+const modalCloseSuccessBtn = document.getElementById('modalCloseSuccess');
+const modalOverlay = document.querySelector('.modal__overlay');
+
+function openModal() {
+    modal.classList.add('modal--open');
+    modalForm.classList.add('modal__content--active');
+    modalSuccess.classList.remove('modal__content--active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    modal.classList.remove('modal--open');
+    modalForm.classList.remove('modal__content--active');
+    modalSuccess.classList.remove('modal__content--active');
+    document.body.style.overflow = '';
+    // Reset form
+    if (consultForm) {
+        consultForm.reset();
+    }
+}
+
+function showSuccess() {
+    modalForm.classList.remove('modal__content--active');
+    modalSuccess.classList.add('modal__content--active');
+}
+
+// Close modal on button click
+if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closeModal);
+}
+if (modalCloseSuccessBtn) {
+    modalCloseSuccessBtn.addEventListener('click', closeModal);
+}
+
+// Close modal on overlay click
+if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeModal);
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('modal--open')) {
+        closeModal();
+    }
+});
+
+// Form submit
+if (consultForm) {
+    consultForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Here you can add form data sending logic
+        showSuccess();
+    });
+}

@@ -105,6 +105,7 @@ body {
     overflow-x: hidden;
 }
 
+
 html {
     font-size: 62.5%;
     overflow-x: hidden;
@@ -146,8 +147,7 @@ html {
 }
 
 .hero__title {
-    font-size: clamp(2.8rem, 4.17vw, 6rem);
-    font-size:6rem ;
+    font-size: 6rem;
     font-weight: 700;
     line-height: var(--line-height-title);
     color: var(--color-text-primary);
@@ -155,13 +155,28 @@ html {
     white-space: pre-line;
 }
 
-.hero__description {
+.hero__description,
+.hero__description_mobile {
     font-size: clamp(1.4rem, 1.39vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
     max-width: 40.5rem;
     white-space: pre-line;
+}
+
+/* Мобильные версии текстов - скрыты по умолчанию */
+.hero__description_mobile,
+.about__text--main_mobile,
+.about__text--secondary_mobile,
+.stages__title_mobile,
+.stage-card__text_mobile,
+.pricing__text_mobile,
+.equipment__description_mobile,
+.scenarios__description_mobile,
+.benefits__main-text_mobile,
+.benefits__item_mobile {
+    display: none;
 }
 
 .hero__image-wrapper {
@@ -237,6 +252,27 @@ html {
 .button:hover {
     background-color: #FFFFFF;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+}
+
+.button--pressed {
+    background-color: #2C2C2C !important;
+    border-color: #2C2C2C !important;
+    transition: none !important;
+}
+
+.button--pressed .button__text {
+    color: #FFFFFF !important;
+}
+
+.button--pressed::before,
+.button--pressed .button__text::before {
+    background-color: #FFFFFF !important;
+    transition: none !important;
+}
+
+.button--pressed::after,
+.button--pressed .button__text::after {
+    transition: none !important;
 }
 
 .button__text {
@@ -325,7 +361,8 @@ html {
     gap: var(--spacing-24);
 }
 
-.benefits__main-text {
+.benefits__main-text,
+.benefits__main-text_mobile {
     font-size: clamp(2rem, 2.5vw, 3.2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -341,7 +378,8 @@ html {
     max-width: 32.6rem;
 }
 
-.benefits__item {
+.benefits__item,
+.benefits__item_mobile {
     font-size: clamp(1.8rem, 1.5vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -418,7 +456,8 @@ html {
     white-space: pre-line;
 }
 
-.about__text--main {
+.about__text--main,
+.about__text--main_mobile {
     font-size: clamp(2rem, 2.22vw, 3.2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -426,7 +465,8 @@ html {
     color: var(--color-text-primary);
 }
 
-.about__text--secondary {
+.about__text--secondary,
+.about__text--secondary_mobile {
     font-size: clamp(1.4rem, 1.39vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -488,7 +528,8 @@ html {
     text-align: center;
 }
 
-.scenarios__description {
+.scenarios__description,
+.scenarios__description_mobile {
     font-size: clamp(1.4rem, 1.39vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -597,7 +638,8 @@ html {
     gap: var(--spacing-12);
 }
 
-.pricing__text {
+.pricing__text,
+.pricing__text_mobile {
     font-size: var(--font-size-20);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -711,7 +753,8 @@ html {
     white-space: pre-line;
 }
 
-.equipment__description {
+.equipment__description,
+.equipment__description_mobile {
     font-size: clamp(1.4rem, 1.39vw, 2rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -776,7 +819,8 @@ html {
     gap: 8rem;
 }
 
-.stages__title {
+.stages__title,
+.stages__title_mobile {
     font-size: clamp(2rem, 2.22vw, 3.2rem);
     font-weight: 700;
     line-height: var(--line-height-normal);
@@ -784,6 +828,7 @@ html {
     color: var(--color-text-primary);
     flex: 1 1 40rem;
     max-width: 76.6rem;
+    white-space: pre-line;
 }
 
 .stages__subtitle {
@@ -862,7 +907,8 @@ html {
     flex: 1;
 }
 
-.stage-card__text {
+.stage-card__text,
+.stage-card__text_mobile {
     margin-top: auto;
     white-space: pre-line;
 }
@@ -897,7 +943,8 @@ html {
     white-space: pre-line;
 }
 
-.stage-card__text {
+.stage-card__text,
+.stage-card__text_mobile {
     font-size: var(--font-size-16);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -1293,6 +1340,37 @@ html {
 
 @media screen and (max-width: 600px) {
     
+        /* Масштабирование всех rem пропорционально ширине экрана */
+        html {
+            font-size: clamp(8px, 2.67vw, 10px);
+        }
+
+        /* Переключение текстов на мобильные версии */
+        .hero__description,
+        .about__text--main,
+        .about__text--secondary,
+        .stages__title,
+        .stage-card__text,
+        .pricing__text,
+        .equipment__description,
+        .scenarios__description,
+        .benefits__main-text,
+        .benefits__item {
+            display: none !important;
+        }
+
+        .hero__description_mobile,
+        .about__text--main_mobile,
+        .about__text--secondary_mobile,
+        .stages__title_mobile,
+        .stage-card__text_mobile,
+        .pricing__text_mobile,
+        .equipment__description_mobile,
+        .scenarios__description_mobile,
+        .benefits__main-text_mobile,
+        .benefits__item_mobile {
+            display: block !important;
+        }
 
 
         /* Общие паддинги для всех секций */
@@ -1343,18 +1421,27 @@ html {
         .hero__container {
             flex-direction: column;
             align-items: center;
+            gap: 5rem;
         }
 
-        .hero__content,
-        .hero__image-wrapper {
+        .hero__content {
             width: 100%;
         }
 
         .hero__image-wrapper{
-            margin-top: 3rem;
+            margin-top: 0;
             order: 2;
-            width: 32.5rem;
-            height: 30.5rem;
+            width: 100%;
+            max-width: 400px;
+            flex: none;
+            aspect-ratio: 1 / 1;
+        }
+
+        .hero__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
         }
     
         .button__text {
@@ -1390,7 +1477,9 @@ html {
             right: var(--inner-right-pos, 1.3rem);
         }
 
-        .about__text {
+        .about__text,
+        .about__text--main_mobile,
+        .about__text--secondary_mobile {
             text-align: left;
         }
 
@@ -1403,16 +1492,35 @@ html {
             font-size: 2rem;
         }
 
-        .about__text,
-        .about__text--secondary,
-        .stages__subtitle,
-        .stage-card__text,
-        .scenarios__description,
-        .scenarios__label-text,
-        .pricing__text,
-        .pricing__price,
-        .benefits__gallery-text,
-        .equipment__description {
+        .hero__description_mobile {
+            font-size: 1.8rem;
+        }
+
+        .about__text--main_mobile {
+            font-size: 2rem;
+        }
+
+        .about__text--secondary_mobile {
+            font-size: 2rem;
+        }
+
+        .pricing__text_mobile {
+            font-size: 1.8rem;
+        }
+
+        .equipment__description_mobile {
+            font-size: 1.8rem;
+        }
+
+        .scenarios__description_mobile {
+            font-size: 2rem;
+        }
+
+        .benefits__gallery-text {
+            font-size: 1.6rem;
+        }
+
+        .pricing__price {
             font-size: 1.8rem;
         }
 
@@ -1431,15 +1539,17 @@ html {
 
         .about__gallery-slider-wrapper {
             display: flex;
+            align-items: center;
             transition: transform 0.5s ease-in-out;
             width: 300%;
         }
 
         .about__gallery-slide {
-            width: 33rem;
+            width: 100%;
+            max-width: 400px;
             flex-shrink: 0;
-            max-width: 33rem;
-            height: 38rem;
+            height: auto;
+            aspect-ratio: 330 / 380;
             object-fit: cover;
             margin: 0 auto;
             display: block;
@@ -1449,18 +1559,9 @@ html {
             min-height: auto;
             gap: 1.5rem;
         }
-
-        .about__gallery-slider-wrapper {
-            align-items: center;
-        }
         .stages__subtitle{
             display: none;
         }
-
-        .stages__container {
-            align-items: center !important;
-        }
-
         .stages__content {
             width: 100%;
             overflow: hidden;
@@ -1487,24 +1588,25 @@ html {
             width: 100%;
             display: flex;
             justify-content: center;
-            padding: 0 1rem;
+            padding: 0;
             box-sizing: border-box;
         }
 
         .stages__slide .stage-card,
         .stages__slide .stage-card--wide {
             width: 100% !important;
-            max-width: 33rem !important;
+            max-width: 400px;
             height: auto;
-            min-height: 25rem;
+            min-height: 250px;
         }
 
         .stages__slide .stage-card__title {
-            font-size: 1.8rem;
+            font-size: 18px;
         }
 
-        .stages__slide .stage-card__text {
-            font-size: 1.6rem;
+        .stages__slide .stage-card__text,
+        .stages__slide .stage-card__text_mobile {
+            font-size: 16px;
         }
 
         .stage-card__image {
@@ -1546,10 +1648,10 @@ html {
         .pricing__image-wrapper{
             display: flex;
             margin: 0 auto;
-            width: 33rem;
-            height: 37.5rem;
-            min-width: 30rem;
-            max-width: 33rem;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            aspect-ratio: 330 / 375;
             order: 2;
         }
 
@@ -1630,7 +1732,12 @@ html {
         .scenarios__item {
             align-items: center;
             width: 100%;
-            max-width: 33rem;
+            max-width: 400px;
+        }
+
+        .scenarios__image {
+            width: 100%;
+            aspect-ratio: 368 / 421;
         }
 
         .scenarios__label {
@@ -1659,8 +1766,351 @@ html {
         .benefits__gallery-text {
             text-align: left;
         }
+        .scenarios__title,
+        .equipment__description_mobile,
+        .scenarios__description_mobile,
+        .equipment__description,
+        .stages__title_mobile{
+            text-align: left;
+        }
+        .about__content,
+        .stages__header {
+            align-items: baseline;
+        }
     }
-    
 
+/* ==================== MODAL ==================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
 
+.modal--open {
+    display: flex;
+}
 
+.modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.modal__content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #161616;
+    display: none;
+    flex-direction: column;
+}
+
+.modal__content--active {
+    display: flex;
+}
+
+.modal__close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: opacity 0.3s ease;
+}
+
+.modal__close:hover {
+    opacity: 0.7;
+}
+
+/* Form State */
+.modal__content--form {
+    padding: 80px 135px;
+    justify-content: center;
+}
+
+.modal__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 570px;
+    margin-bottom: 60px;
+}
+
+.modal__title {
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.21;
+    text-transform: uppercase;
+    margin: 0;
+    white-space: pre-line;
+}
+
+.modal__subtitle {
+    color: #D0CECE;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.21;
+    margin: 0;
+    max-width: 496px;
+    white-space: pre-line;
+}
+
+.modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-top: 18px;
+}
+
+.modal__row {
+    display: flex;
+    gap: 30px;
+}
+
+.modal__input {
+    flex: 1;
+    height: 80px;
+    padding: 28px;
+    background: transparent;
+    border: 0.5px solid #FFFFFF;
+    border-radius: 40px;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.21;
+    box-sizing: border-box;
+}
+
+.modal__input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.modal__input:focus {
+    outline: none;
+    border-color: #306FDB;
+}
+
+.modal__textarea {
+    width: 100%;
+    height: 120px;
+    padding: 28px;
+    background: transparent;
+    border: 0.5px solid #FFFFFF;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.21;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.modal__textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.modal__textarea:focus {
+    outline: none;
+    border-color: #306FDB;
+}
+
+.modal__submit {
+    width: 100%;
+    padding: 24px;
+    background: #306FDB;
+    border: none;
+    border-radius: 40px;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-top: 22px;
+}
+
+.modal__submit:hover {
+    background: #2158b8;
+}
+
+.modal__submit:active {
+    transform: scale(0.98);
+}
+
+.modal__privacy {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.21;
+    text-align: center;
+    margin: 0;
+}
+
+/* Success State */
+.modal__content--success {
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.modal__success-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 528px;
+}
+
+.modal__moon {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 20px;
+}
+
+/* Луна - белый полукруг */
+.modal__moon::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70px;
+    height: 70px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    clip-path: inset(0 50% 0 0);
+}
+
+/* Внутренний круг - цвет фона */
+.modal__moon::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 64px;
+    height: 66px;
+    background-color: #161616;
+    border-radius: 50%;
+}
+
+.modal__success-title {
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.21;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+}
+
+.modal__success-text {
+    color: #D0CECE;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.21;
+    text-align: center;
+    margin: 0;
+    max-width: 466px;
+}
+
+/* Modal Mobile */
+@media screen and (max-width: 900px) {
+    .modal__content {
+        height: 100%;
+        min-height: 100vh;
+    }
+
+    .modal__content--form {
+        padding: 60px 20px 40px;
+    }
+
+    .modal__close {
+        top: 20px;
+        right: 20px;
+        font-size: 16px;
+    }
+
+    .modal__header {
+        margin-bottom: 40px;
+    }
+
+    .modal__title {
+        font-size: 24px;
+    }
+
+    .modal__subtitle {
+        font-size: 16px;
+    }
+
+    .modal__row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .modal__input {
+        height: 60px;
+        padding: 20px;
+        font-size: 16px;
+        border-radius: 30px;
+    }
+
+    .modal__textarea {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .modal__submit {
+        padding: 18px;
+        font-size: 18px;
+        border-radius: 30px;
+    }
+
+    .modal__privacy {
+        font-size: 14px;
+    }
+
+    .modal__content--success {
+        padding: 60px 20px;
+    }
+
+    .modal__success-title {
+        font-size: 24px;
+    }
+
+    .modal__success-text {
+        font-size: 16px;
+    }
+}
