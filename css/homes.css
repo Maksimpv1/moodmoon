@@ -279,15 +279,16 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
 .equipment-homes__gallery-image {
-    width: clamp(15rem, 20vw, 28.5rem);
-    height: clamp(15rem, 20vw, 28.5rem);
-    object-fit: cover;
-    border-radius: var(--radius-10);
+    object-fit: contain;
+}
+
+.equipment-homes__gallery-image--wide {
+    width: 100%;
+    max-width: 57rem;
 }
 
 /* Equipment Logos Strip */

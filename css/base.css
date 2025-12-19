@@ -130,7 +130,7 @@ html {
     }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 930px) {
     :root {
         --container-padding-percent: 1.5rem;
     }

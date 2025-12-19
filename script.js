@@ -298,20 +298,20 @@ function initStagesSlider() {
 
     const isMobile = window.innerWidth < 600;
     const existingSlider = stagesContent.querySelector('.stages__slider');
-    const rows = stagesContent.querySelectorAll('.stages__row');
+    const row = stagesContent.querySelector('.stages__row');
 
     if (isMobile) {
-        // Скрываем ряды
-        rows.forEach(row => row.style.display = 'none');
+        // Скрываем ряд
+        if (row) row.style.display = 'none';
 
         // Если слайдер уже есть - выходим
         if (existingSlider) return;
 
-        // Собираем карточки
+        // Собираем карточки из одной строки
         const cards = [];
-        rows.forEach(row => {
+        if (row) {
             row.querySelectorAll('.stage-card').forEach(card => cards.push(card));
-        });
+        }
 
         if (cards.length === 0) return;
 
@@ -344,11 +344,11 @@ function initStagesSlider() {
         // Инициализируем свайп
         initSwipe(slider, track, dots, cards.length);
     } else {
-        // На десктопе удаляем слайдер и показываем ряды
+        // На десктопе удаляем слайдер и показываем ряд
         if (existingSlider) {
             existingSlider.remove();
         }
-        rows.forEach(row => row.style.display = '');
+        if (row) row.style.display = '';
     }
 }
 

@@ -132,7 +132,7 @@
 
 /* ==================== STAGE CARD COMPONENT ==================== */
 .stage-card {
-    flex: 1 1 24rem;
+    width: 27.1rem;
     min-width: 24rem;
     max-width: 27.1rem;
     min-height: 31.4rem;
@@ -144,7 +144,7 @@
 }
 
 .stage-card--wide {
-    flex: 1 1 24rem;
+    width: 27rem;
     min-width: 24rem;
     max-width: 27rem;
 }
@@ -226,7 +226,7 @@
 }
 
 .stage-card__image {
-    flex: 1 1 24rem;
+    width: 26.9rem;
     min-width: 24rem;
     max-width: 26.9rem;
     min-height: 31.4rem;
@@ -289,10 +289,11 @@
 }
 
 .stages__row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 27.1rem);
     gap: 2rem;
     justify-content: center;
+    align-items: start;
 }
 
 /* ==================== PRICING SECTION ==================== */
@@ -885,6 +886,25 @@
     max-width: 466px;
 }
 
+/* ==================== RESPONSIVE - LARGE DESKTOP ==================== */
+@media screen and (min-width: 1201px) {
+    .stages__row {
+        grid-template-columns: repeat(4, 27.1rem);
+    }
+
+    .stage-card {
+        width: 27.1rem;
+    }
+
+    .stage-card--wide {
+        width: 27rem;
+    }
+
+    .stage-card__image {
+        width: 26.9rem;
+    }
+}
+
 /* ==================== RESPONSIVE - TABLET ==================== */
 @media screen and (max-width: 1200px) {
     .button {
@@ -918,24 +938,54 @@
     }
 
     .stages__row {
-        justify-content: center;
+        grid-template-columns: repeat(3, minmax(22rem, 27.1rem));
         gap: 2rem;
+        justify-content: center;
     }
 
-    .stages__row > * {
-        flex: 1 1 auto;
+    .stage-card {
+        width: 100%;
         max-width: 27.1rem;
+        min-width: 22rem;
     }
 
-    .stage-card,
     .stage-card--wide {
-        min-width: 24rem;
-        max-width: 27.1rem;
+        width: 100%;
+        max-width: 27rem;
+        min-width: 22rem;
     }
 
     .stage-card__image {
-        min-width: 24rem;
+        width: 100%;
         max-width: 26.9rem;
+        min-width: 22rem;
+    }
+}
+
+/* ==================== RESPONSIVE - SMALL TABLET ==================== */
+@media screen and (max-width: 930px) and (min-width: 601px) {
+    .stages__row {
+        grid-template-columns: repeat(2, minmax(22rem, 27.1rem));
+        gap: 2rem;
+        justify-content: center;
+    }
+
+    .stage-card {
+        width: 100%;
+        max-width: 27.1rem;
+        min-width: 22rem;
+    }
+
+    .stage-card--wide {
+        width: 100%;
+        max-width: 27rem;
+        min-width: 22rem;
+    }
+
+    .stage-card__image {
+        width: 100%;
+        max-width: 26.9rem;
+        min-width: 22rem;
     }
 
     .pricing__content {
@@ -985,6 +1035,18 @@
     }
 }
 
+/* ==================== RESPONSIVE - SMALL TABLET TO MOBILE ==================== */
+@media screen and (max-width: 620px) and (min-width: 601px) {
+    .stages__header {
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+
+    .stages__subtitle {
+        margin-top: 0.5rem;
+    }
+}
+
 /* ==================== RESPONSIVE - MOBILE ==================== */
 @media screen and (max-width: 600px) {
     /* Все кнопки */
@@ -1027,6 +1089,11 @@
         right: var(--inner-right-pos, 1.3rem);
     }
 
+    .stages__header {
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+
     .stages__subtitle {
         display: none;
     }
@@ -1065,8 +1132,9 @@
     .stages__slide .stage-card--wide {
         width: 100% !important;
         max-width: 400px;
+        min-width: 24rem;
         height: auto;
-        min-height: 250px;
+        min-height: 31.4rem;
     }
 
     .stages__slide .stage-card__title {
