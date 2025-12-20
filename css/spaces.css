@@ -186,7 +186,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 2rem;
     position: relative;
 }
@@ -194,9 +194,8 @@
 .equipment__logos {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 2rem;
     flex: 0 0 auto;
-    align-self: flex-start;
 }
 
 .equipment__logos--left {
@@ -209,17 +208,10 @@
 
 .equipment__logo {
     height: auto;
-    max-height: clamp(11rem, 15vw, 15rem);
+    max-height: 7rem;
     width: auto;
-    max-width: clamp(26rem, 35vw, 35rem);
+    max-width: 18rem;
     object-fit: contain;
-    transition: max-width 0.3s ease, max-height 0.3s ease;
-}
-
-.equipment__logos--right .equipment__logo {
-    max-height: clamp(13rem, 18vw, 18rem) !important;
-    max-width: clamp(30rem, 40vw, 40rem) !important;
-    transition: max-width 0.3s ease, max-height 0.3s ease;
 }
 
 .equipment__gallery-image {
@@ -232,36 +224,18 @@
 }
 
 .equipment__gallery-image--center {
-    align-self: flex-start;
-}
-
-/* ==================== RESPONSIVE - DESKTOP AND TABLET (больше 600px) ==================== */
-@media screen and (min-width: 601px) {
-    .equipment__gallery-image--center {
-        align-self: flex-start !important;
-    }
+    align-self: center;
 }
 
 /* ==================== RESPONSIVE - TABLET ==================== */
-@media screen and (max-width: 1200px) and (min-width: 601px) {
-    .equipment__gallery-image--center {
-        align-self: flex-start;
-    }
-
+@media screen and (max-width: 1200px) {
     .equipment__logos {
-        gap: 0.4rem;
+        gap: 1.5rem;
     }
 
     .equipment__logo {
-        max-height: clamp(11rem, 14vw, 14rem);
-        max-width: clamp(26rem, 32vw, 32rem);
-        transition: max-width 0.3s ease, max-height 0.3s ease;
-    }
-
-    .equipment__logos--right .equipment__logo {
-        max-height: clamp(13rem, 16vw, 16rem) !important;
-        max-width: clamp(30rem, 36vw, 36rem) !important;
-        transition: max-width 0.3s ease, max-height 0.3s ease;
+        max-height: 6.5rem;
+        max-width: 16rem;
     }
     .hero__container {
         flex-wrap: nowrap;
@@ -311,6 +285,40 @@
         font-size: clamp(1.4rem, 1.39vw, 1.6rem);
     }
 }
+
+/* ==================== RESPONSIVE - SMALL TABLET ==================== */
+@media screen and (max-width: 999px) {
+    .hero__container {
+        align-items: flex-end;
+    }
+
+    .hero__content {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+    }
+
+    .hero__text-block {
+        flex: 1 1 auto;
+    }
+
+    .hero__content .button {
+        align-self: flex-start;
+        margin-top: auto;
+    }
+}
+
+/* ==================== RESPONSIVE - TABLET TO MOBILE ==================== */
+@media screen and (min-width: 601px) and (max-width: 999px) {
+    .hero__description {
+        font-size: 1.8rem;
+    }
+
+    .about__text--secondary {
+        font-size: 1.8rem;
+    }
+}
+
 
 /* ==================== RESPONSIVE - MOBILE ==================== */
 @media screen and (max-width: 600px) {
@@ -468,7 +476,7 @@
     .equipment__logos {
         display: flex;
         flex-direction: column;
-        gap: 0.4rem;
+        gap: 1.5rem;
         flex: 0 0 calc(50% - 0.75rem);
     }
 
@@ -481,15 +489,8 @@
     }
 
     .equipment__logo {
-        max-height: clamp(9rem, 11vw, 11rem);
-        max-width: clamp(22rem, 26vw, 26rem);
-        transition: max-width 0.3s ease, max-height 0.3s ease;
-    }
-
-    .equipment__logos--right .equipment__logo {
-        max-height: clamp(11rem, 13vw, 13rem) !important;
-        max-width: clamp(26rem, 30vw, 30rem) !important;
-        transition: max-width 0.3s ease, max-height 0.3s ease;
+        max-height: 5.5rem;
+        max-width: 14rem;
     }
 
     .equipment__gallery-image {
