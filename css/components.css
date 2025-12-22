@@ -229,7 +229,7 @@
     width: 26.9rem;
     min-width: 24rem;
     max-width: 26.9rem;
-    min-height: 31.4rem;
+    height: 31.4rem;
 }
 
 .stage-card__image-img {
@@ -945,7 +945,7 @@
 
     .stage-card {
         width: 100%;
-        max-width: 27.1rem;
+        max-width: 26.9rem;
         min-width: 22rem;
     }
 
@@ -1074,7 +1074,7 @@
 
     .stage-card {
         width: 100%;
-        max-width: 27.1rem;
+        max-width: 26.9rem;
         min-width: 22rem;
     }
 
@@ -1134,6 +1134,32 @@
     .benefits__gallery-image {
         width: 12rem;
         height: 11rem;
+    }
+}
+
+/* ==================== RESPONSIVE - 600px to 700px ==================== */
+@media screen and (min-width: 601px) and (max-width: 700px) {
+    .benefits__main-text,
+    .benefits__main-text_mobile {
+        font-size: clamp(1.8rem, 2.2vw, 2.2rem);
+    }
+
+    .benefits__item,
+    .benefits__item_mobile {
+        font-size: clamp(1.6rem, 1.4vw, 1.8rem);
+    }
+
+    .benefits__gallery-image {
+        width: clamp(8rem, 10vw, 10rem);
+        height: clamp(7rem, 9vw, 9rem);
+    }
+
+    .benefits__gallery-text {
+        font-size: clamp(1.2rem, 1.3vw, 1.4rem);
+    }
+
+    .benefits__list {
+        max-width: 100%;
     }
 }
 
@@ -1256,7 +1282,7 @@
     .stages__slide .stage-card,
     .stages__slide .stage-card--wide {
         width: 100% !important;
-        max-width: 400px;
+        max-width: none;
         min-width: 24rem;
         height: auto;
         min-height: 31.4rem;
@@ -1314,7 +1340,7 @@
         display: flex;
         margin: 0 auto;
         width: 100%;
-        max-width: 400px;
+        max-width: none;
         height: auto;
         aspect-ratio: 330 / 375;
         order: 2;
@@ -1341,7 +1367,7 @@
     .scenarios__item {
         align-items: center;
         width: 100%;
-        max-width: 400px;
+        max-width: none;
     }
 
     .scenarios__image {

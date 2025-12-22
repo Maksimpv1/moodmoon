@@ -642,4 +642,85 @@ function initKnowhowGallery() {
     startAutoplay();
 }
 
+// Слайдер для картинок Equipment Homes
+function initEquipmentHomesSlider() {
+    const equipmentGallery = document.querySelector('.equipment-homes__gallery');
+    if (!equipmentGallery) return;
+
+    const images = equipmentGallery.querySelectorAll('.equipment-homes__gallery-image');
+    if (images.length === 0) return;
+
+    const isMobile = window.innerWidth < 600;
+    const existingSlider = equipmentGallery.querySelector('.equipment-homes__gallery-slider');
+
+    if (isMobile) {
+        // Создаем слайдер если его еще нет
+        if (!existingSlider) {
+            const slider = document.createElement('div');
+            slider.className = 'equipment-homes__gallery-slider';
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'equipment-homes__gallery-slider-wrapper';
+            
+            // Клонируем картинки в слайдер
+            images.forEach(img => {
+                const slide = document.createElement('div');
+                slide.className = 'equipment-homes__gallery-slide';
+                const imgClone = img.cloneNode(true);
+                slide.appendChild(imgClone);
+                wrapper.appendChild(slide);
+            });
+            
+            slider.appendChild(wrapper);
+            equipmentGallery.innerHTML = '';
+            equipmentGallery.appendChild(slider);
+            
+            // Запускаем автоматическое переключение
+            startEquipmentHomesSlider(wrapper);
+        }
+    } else {
+        // Удаляем слайдер и возвращаем оригинальные картинки
+        if (existingSlider) {
+            const slides = existingSlider.querySelectorAll('.equipment-homes__gallery-slide');
+            equipmentGallery.innerHTML = '';
+            
+            slides.forEach(slide => {
+                const img = slide.querySelector('img');
+                if (img) {
+                    img.classList.add('equipment-homes__gallery-image');
+                    img.classList.remove('equipment-homes__gallery-slide');
+                    equipmentGallery.appendChild(img);
+                }
+            });
+        }
+    }
+}
+
+// Автоматическое переключение слайдов Equipment Homes
+let equipmentHomesSliderInterval = null;
+
+function startEquipmentHomesSlider(wrapper) {
+    if (equipmentHomesSliderInterval) {
+        clearInterval(equipmentHomesSliderInterval);
+    }
+    
+    const slides = wrapper.querySelectorAll('.equipment-homes__gallery-slide');
+    if (slides.length === 0) return;
+    
+    let currentIndex = 0;
+    
+    equipmentHomesSliderInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        wrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+    }, 3000);
+}
+
+// Выполняем при загрузке и изменении размера окна
+function handleEquipmentHomesSection() {
+    initEquipmentHomesSlider();
+}
+
+window.addEventListener('load', handleEquipmentHomesSection);
+window.addEventListener('resize', handleEquipmentHomesSection);
+
 window.addEventListener('load', initKnowhowGallery);

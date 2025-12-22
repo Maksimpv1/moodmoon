@@ -309,13 +309,30 @@
 }
 
 /* ==================== RESPONSIVE - TABLET TO MOBILE ==================== */
-@media screen and (min-width: 601px) and (max-width: 999px) {
+@media screen and (min-width: 601px) and (max-width: 1025px) {
     .hero__description {
         font-size: 1.8rem;
     }
 
+    .hero__description_mobile {
+        display: none !important;
+    }
+
     .about__text--secondary {
         font-size: 1.8rem;
+    }
+}
+
+/* ==================== RESPONSIVE - 600px to 700px ==================== */
+@media screen and (min-width: 601px) and (max-width: 700px) {
+    .benefits__main-text,
+    .benefits__main-text_mobile {
+        font-size: clamp(1.8rem, 2.2vw, 2.2rem) !important;
+    }
+
+    .benefits__item,
+    .benefits__item_mobile {
+        font-size: clamp(1.6rem, 1.4vw, 1.8rem) !important;
     }
 }
 
@@ -350,7 +367,7 @@
         margin-top: 0;
         order: 2;
         width: 100%;
-        max-width: 400px;
+        max-width: none;
         flex: none;
         aspect-ratio: 1 / 1;
     }
@@ -428,7 +445,7 @@
 
     .about__gallery-slide {
         width: 100%;
-        max-width: 400px;
+        max-width: none;
         flex-shrink: 0;
         height: auto;
         aspect-ratio: 330 / 380;
