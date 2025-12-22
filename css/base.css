@@ -121,7 +121,12 @@ html {
 .equipment__description_mobile,
 .scenarios__description_mobile,
 .benefits__main-text_mobile,
-.benefits__item_mobile {
+.benefits__item_mobile,
+.modal__title_mobile,
+.modal__subtitle_mobile,
+.modal__privacy_mobile,
+.modal__success-title_mobile,
+.modal__success-text_mobile {
     display: none;
 }
 
@@ -170,8 +175,21 @@ html {
     .equipment__description_mobile,
     .scenarios__description_mobile,
     .benefits__main-text_mobile,
-    .benefits__item_mobile {
+    .benefits__item_mobile,
+    .modal__title_mobile,
+    .modal__subtitle_mobile,
+    .modal__privacy_mobile,
+    .modal__success-title_mobile,
+    .modal__success-text_mobile {
         display: block !important;
+    }
+
+    .modal__title,
+    .modal__subtitle,
+    .modal__privacy,
+    .modal__success-title,
+    .modal__success-text {
+        display: none !important;
     }
 }
 

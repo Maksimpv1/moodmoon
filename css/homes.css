@@ -340,10 +340,6 @@
     max-height: clamp(1.4rem, 2.1vw, 3.5rem);
 }
 
-/* Equipment Logos Strip (old section - hidden) */
-.equipment-logos {
-    display: none;
-}
 
 /* Scenarios Section - Homes Page */
 .scenarios-homes {
