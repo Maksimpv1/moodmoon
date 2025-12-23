@@ -162,7 +162,8 @@ html {
     .equipment__description,
     .scenarios__description,
     .benefits__main-text,
-    .benefits__item {
+    .benefits__item,
+    .hero-retail__title {
         display: none !important;
     }
 
@@ -180,7 +181,8 @@ html {
     .modal__subtitle_mobile,
     .modal__privacy_mobile,
     .modal__success-title_mobile,
-    .modal__success-text_mobile {
+    .modal__success-text_mobile,
+    .hero-retail__title_mobile {
         display: block !important;
     }
 

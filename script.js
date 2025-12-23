@@ -724,3 +724,143 @@ window.addEventListener('load', handleEquipmentHomesSection);
 window.addEventListener('resize', handleEquipmentHomesSection);
 
 window.addEventListener('load', initKnowhowGallery);
+
+// ==================== RETAIL GALLERY SLIDER ====================
+function initRetailGallerySlider() {
+    const gallery = document.querySelector('.retail-gallery__gallery');
+    const container = document.querySelector('.retail-gallery__container');
+    if (!gallery || !container) return;
+
+    const images = gallery.querySelectorAll('.retail-gallery__image');
+    if (images.length === 0) return;
+
+    const isMobile = window.innerWidth < 600;
+    const existingSlider = container.querySelector('.retail-gallery__slider');
+
+    if (isMobile) {
+        // Скрываем обычную галерею
+        gallery.style.display = 'none';
+
+        // Создаем слайдер если его еще нет
+        if (!existingSlider) {
+            const slider = document.createElement('div');
+            slider.className = 'retail-gallery__slider';
+
+            const track = document.createElement('div');
+            track.className = 'retail-gallery__slider-track';
+
+            const dots = document.createElement('div');
+            dots.className = 'retail-gallery__dots';
+
+            images.forEach((img, i) => {
+                const slide = document.createElement('div');
+                slide.className = 'retail-gallery__slider-slide';
+                const imgClone = img.cloneNode(true);
+                slide.appendChild(imgClone);
+                track.appendChild(slide);
+
+                const dot = document.createElement('div');
+                dot.className = 'retail-gallery__dot' + (i === 0 ? ' retail-gallery__dot--active' : '');
+                dot.dataset.index = i;
+                dots.appendChild(dot);
+            });
+
+            slider.appendChild(track);
+            slider.appendChild(dots);
+            container.appendChild(slider);
+
+            // Инициализируем свайп
+            initRetailSwipe(slider, track, dots, images.length);
+        }
+    } else {
+        // На десктопе показываем галерею и удаляем слайдер
+        gallery.style.display = '';
+        if (existingSlider) {
+            existingSlider.remove();
+        }
+    }
+}
+
+function initRetailSwipe(slider, track, dotsContainer, total) {
+    let current = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let autoplayInterval = null;
+
+    const dots = dotsContainer.querySelectorAll('.retail-gallery__dot');
+
+    function goTo(index) {
+        current = Math.max(0, Math.min(index, total - 1));
+        track.style.transform = `translateX(-${current * 100}%)`;
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('retail-gallery__dot--active', i === current);
+        });
+    }
+
+    function nextSlide() {
+        goTo((current + 1) % total);
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+    }
+
+    // Touch events
+    track.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        track.style.transition = 'none';
+        stopAutoplay();
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+        const offset = -current * 100 + (diff / slider.offsetWidth) * 100;
+        track.style.transform = `translateX(${offset}%)`;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.transition = 'transform 0.5s ease-out';
+
+        const diff = currentX - startX;
+        const threshold = slider.offsetWidth * 0.2;
+
+        if (diff > threshold && current > 0) {
+            goTo(current - 1);
+        } else if (diff < -threshold && current < total - 1) {
+            goTo(current + 1);
+        } else {
+            goTo(current);
+        }
+
+        startAutoplay();
+    });
+
+    // Клик по точкам
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            goTo(parseInt(dot.dataset.index));
+            startAutoplay();
+        });
+    });
+
+    goTo(0);
+    startAutoplay();
+}
+
+window.addEventListener('load', initRetailGallerySlider);
+window.addEventListener('resize', initRetailGallerySlider);

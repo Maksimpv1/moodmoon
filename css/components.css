@@ -608,6 +608,10 @@
     border: 0.05rem solid var(--color-border);
 }
 
+.benefits__gallery-item:first-child .benefits__gallery-image {
+    filter: grayscale(100%);
+}
+
 .benefits__gallery-text {
     font-size: clamp(1.4rem, 1.39vw, 2rem);
     font-weight: 600;
@@ -617,6 +621,7 @@
     flex: 1 1 0;
     min-width: 0;
     white-space: pre-line;
+    text-align: left;
 }
 
 /* ==================== MODAL ==================== */
@@ -1579,6 +1584,14 @@
 
     .modal__content--success {
         padding: 60px 20px;
+    }
+
+    .modal__success-title {
+        font-size: 24px;
+    }
+
+    .modal__success-text {
+        font-size: 16px;
     }
 }
 

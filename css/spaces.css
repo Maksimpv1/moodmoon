@@ -540,6 +540,43 @@
     .stages__header {
         align-items: baseline;
     }
+
+    .modal__subtitle_mobile,
+    .modal__privacy_mobile {
+        white-space: pre-line;
+    }
+    
+    .benefits__gallery {
+        margin-left: 0;
+        width: 100%;
+        order: 2;
+        gap: 2rem;
+    }
+
+    .benefits__gallery-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .benefits__gallery-image {
+        flex: 0 0 50%;
+        width: 50%;
+        height: auto;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+
+    .benefits__gallery-text {
+        flex: 0 0 50%;
+        width: 50%;
+        text-align: left;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 
