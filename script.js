@@ -502,6 +502,9 @@ function initKnowhowGallery() {
     const gallery = document.querySelector('.knowhow__gallery');
     if (!gallery) return;
 
+    // Отключаем слайдер на мобильных устройствах (600px и меньше)
+    if (window.innerWidth <= 600) return;
+
     const track = gallery.querySelector('.knowhow__gallery-track');
     const dots = gallery.querySelectorAll('.knowhow__dot');
     const images = gallery.querySelectorAll('.knowhow__gallery-image');

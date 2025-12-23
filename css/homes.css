@@ -188,6 +188,10 @@
     margin-left: calc((84.4rem - 43rem) / 2);
 }
 
+.knowhow__description_mobile {
+    display: none;
+}
+
 .knowhow__gallery {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -315,7 +319,7 @@
     flex-wrap: nowrap;
     animation: scrollLogos 40s linear infinite;
     will-change: transform;
-    height: clamp(2rem, 3vw, 5rem);
+    height: clamp(3rem, 4.5vw, 7.5rem);
 }
 
 @keyframes scrollLogos {
@@ -329,7 +333,7 @@
 
 .equipment-homes__logos-logo {
     height: 100%;
-    max-height: clamp(2rem, 3vw, 5rem);
+    max-height: clamp(3rem, 4.5vw, 7.5rem);
     width: auto;
     object-fit: contain;
     flex-shrink: 0;
@@ -337,7 +341,7 @@
 }
 
 .equipment-homes__logos-logo--small {
-    max-height: clamp(1.4rem, 2.1vw, 3.5rem);
+    max-height: clamp(2.1rem, 3.15vw, 5rem);
 }
 
 /* Equipment Logos Strip (old section - hidden) */
@@ -537,6 +541,11 @@
 
     .hero-homes__title {
         font-size: 2.4rem;
+        text-align: left;
+    }
+
+    .hero-homes__content {
+        align-items: flex-start;
     }
 
     .hero-homes__container {
@@ -593,6 +602,7 @@
 
     .knowhow__header {
         padding: 1.5rem 1.5rem 2rem;
+        align-items: center;
     }
 
     .knowhow__title {
@@ -602,20 +612,42 @@
     .knowhow__title_mobile {
         display: block !important;
         font-size: 2.4rem;
+        text-align: center;
     }
 
     .knowhow__description {
+        display: none !important;
+    }
+
+    .knowhow__description_mobile {
+        display: block !important;
         font-size: 1.8rem;
         margin-left: 0;
-        text-align: left;
+        text-align: center;
+        align-self: center;
+        white-space: pre-line;
     }
 
     .knowhow__gallery {
         padding: 0 1.5rem 3rem;
+        overflow: visible;
+    }
+
+    .knowhow__gallery-track {
+        flex-direction: column;
+        gap: 1.5rem;
+        transform: none !important;
     }
 
     .knowhow__gallery-image {
-        height: 35rem;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 330 / 185;
+        flex: none;
+    }
+
+    .knowhow__dots {
+        display: none;
     }
 
     .equipment-homes__description {
@@ -680,11 +712,11 @@
 
     .equipment-homes__logos-logo {
         height: 100%;
-        max-height: 2rem;
+        max-height: 3rem;
     }
 
     .equipment-homes__logos-logo--small {
-        max-height: 1.4rem;
+        max-height: 2.1rem;
     }
 
     .scenarios-homes__description {
@@ -707,6 +739,7 @@
     .scenarios-homes__gallery {
         flex-direction: column;
         align-items: center;
+        gap: 3rem;
     }
 
     .scenarios-homes__item {

@@ -133,7 +133,7 @@
 /* ==================== STAGE CARD COMPONENT ==================== */
 .stage-card {
     width: 27.1rem;
-    min-width: 24rem;
+    min-width: 27.1rem;
     max-width: 27.1rem;
     min-height: 31.4rem;
     background-color: var(--color-bg-light);
@@ -145,7 +145,7 @@
 
 .stage-card--wide {
     width: 27rem;
-    min-width: 24rem;
+    min-width: 27rem;
     max-width: 27rem;
 }
 
@@ -197,7 +197,8 @@
 
 .stage-card__title-wrapper {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 1.2rem;
 }
 
@@ -227,7 +228,7 @@
 
 .stage-card__image {
     width: 26.9rem;
-    min-width: 24rem;
+    min-width: 26.9rem;
     max-width: 26.9rem;
     height: 31.4rem;
 }
@@ -280,6 +281,7 @@
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
     white-space: nowrap;
+    margin-left: auto;
 }
 
 .stages__content {
@@ -292,7 +294,7 @@
     display: grid;
     grid-template-columns: repeat(4, 27.1rem);
     gap: 2rem;
-    justify-content: center;
+    justify-content: space-between;
     align-items: start;
 }
 
@@ -816,7 +818,7 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 1.21;
-    text-align: center;
+    text-align: left;
     margin: 0;
 }
 
@@ -897,18 +899,7 @@
 @media screen and (min-width: 1201px) {
     .stages__row {
         grid-template-columns: repeat(4, 27.1rem);
-    }
-
-    .stage-card {
-        width: 27.1rem;
-    }
-
-    .stage-card--wide {
-        width: 27rem;
-    }
-
-    .stage-card__image {
-        width: 26.9rem;
+        justify-content: space-between;
     }
 }
 
@@ -945,27 +936,9 @@
     }
 
     .stages__row {
-        grid-template-columns: repeat(3, minmax(22rem, 27.1rem));
+        grid-template-columns: repeat(3, 27.1rem);
         gap: 2rem;
-        justify-content: center;
-    }
-
-    .stage-card {
-        width: 100%;
-        max-width: 26.9rem;
-        min-width: 22rem;
-    }
-
-    .stage-card--wide {
-        width: 100%;
-        max-width: 27rem;
-        min-width: 22rem;
-    }
-
-    .stage-card__image {
-        width: 100%;
-        max-width: 26.9rem;
-        min-width: 22rem;
+        justify-content: space-between;
     }
 }
 
@@ -1074,27 +1047,9 @@
 /* ==================== RESPONSIVE - SMALL TABLET ==================== */
 @media screen and (max-width: 930px) and (min-width: 601px) {
     .stages__row {
-        grid-template-columns: repeat(2, minmax(22rem, 27.1rem));
+        grid-template-columns: repeat(2, 27.1rem);
         gap: 2rem;
-        justify-content: center;
-    }
-
-    .stage-card {
-        width: 100%;
-        max-width: 26.9rem;
-        min-width: 22rem;
-    }
-
-    .stage-card--wide {
-        width: 100%;
-        max-width: 27rem;
-        min-width: 22rem;
-    }
-
-    .stage-card__image {
-        width: 100%;
-        max-width: 26.9rem;
-        min-width: 22rem;
+        justify-content: space-between;
     }
 
     .pricing__content {
@@ -1315,6 +1270,11 @@
         min-height: 31.4rem;
     }
 
+    .stage-card__title-wrapper {
+        flex-direction: row;
+        align-items: center;
+    }
+
     .stages__slide .stage-card__title {
         font-size: 18px;
     }
@@ -1388,7 +1348,7 @@
     .scenarios__gallery {
         flex-direction: column;
         align-items: center;
-        gap: 2rem;
+        gap: 3rem;
     }
 
     .scenarios__item {
@@ -1458,7 +1418,7 @@
     }
 
     .modal__content--form {
-        padding: 60px 20px 40px;
+        padding: 5px 20px 40px;
     }
 
     .modal__close {
@@ -1469,10 +1429,17 @@
 
     .modal__header {
         margin-bottom: 40px;
+        margin-top: 0;
+        padding-top: 0;
+        gap: 8px;
     }
 
     .modal__title {
         font-size: 24px;
+    }
+
+    .modal__title_mobile {
+        margin-top: 35px;
     }
 
     .modal__subtitle {
@@ -1545,8 +1512,79 @@
         font-weight: 400;
         font-size: 14px;
         line-height: 1.21;
-        text-align: center;
+        text-align: left;
         margin: 0;
+    }
+}
+
+/* ==================== MODAL - LOW HEIGHT SCREENS ==================== */
+@media screen and (max-height: 700px) {
+    .modal__content--form {
+        padding: 10px 135px 20px;
+    }
+
+    .modal__header {
+        margin-bottom: 30px;
+        gap: 12px;
+    }
+
+    .modal__subtitle {
+        margin-top: 0;
+    }
+
+    .modal__form {
+        gap: 12px;
+    }
+
+    .modal__inputs {
+        gap: 16px;
+        padding-top: 10px;
+    }
+
+    .modal__row {
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: 1200px) and (max-height: 700px) {
+    .modal__content--form {
+        padding: 10px clamp(2rem, 5vw, 8rem) 20px;
+    }
+}
+
+@media screen and (max-width: 600px) and (max-height: 700px) {
+    .modal__content--form {
+        padding: 5px 20px 20px;
+    }
+
+    .modal__header {
+        margin-bottom: 20px;
+        gap: 6px;
+    }
+
+    .modal__title_mobile {
+        margin-top: 30px;
+    }
+
+    .modal__subtitle_mobile {
+        margin-top: 0;
+    }
+
+    .modal__form {
+        gap: 12px;
+    }
+
+    .modal__inputs {
+        gap: 12px;
+        padding-top: 8px;
+    }
+
+    .modal__row {
+        gap: 12px;
+    }
+
+    .modal__submit {
+        margin-top: 12px;
     }
 
     .modal__success-title,

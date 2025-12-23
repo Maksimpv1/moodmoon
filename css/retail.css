@@ -131,7 +131,7 @@
 }
 
 .about-retail__title {
-    font-size: 3.2rem;
+    font-size: clamp(2.4rem, calc(-1.245rem + 0.356vw), 3.2rem);
     font-weight: 500;
     line-height: var(--line-height-title);
     color: var(--color-text-primary);
@@ -139,14 +139,25 @@
     white-space: pre-line;
 }
 
+/* Десктоп - фиксированные размеры */
+@media screen and (min-width: 1251px) {
+    .about-retail__title {
+        font-size: 3.2rem;
+    }
+    
+    .about-retail__description {
+        font-size: 1.8rem;
+    }
+}
+
 .about-retail__description,
 .about-retail__description_tablet,
 .about-retail__description_mobile {
-    font-size: 2rem;
+    font-size: clamp(1.6rem, calc(0.689rem + 0.089vw), 1.8rem);
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
-    max-width: 40.5rem;
+    max-width: 100%;
     white-space: pre-line;
 }
 
@@ -193,7 +204,7 @@
     }
     
     .about-retail__title {
-        font-size: 2.4rem;
+        font-size: clamp(2.4rem, calc(-1.245rem + 0.356vw), 3.2rem);
     }
     
     .about-retail__description {
@@ -202,7 +213,8 @@
     
     .about-retail__description_tablet {
         display: block;
-        font-size: 2rem;
+        font-size: clamp(1.6rem, calc(0.689rem + 0.089vw), 1.8rem);
+        white-space: pre-line;
     }
     
     .about-retail__description_mobile {
@@ -242,11 +254,11 @@
     }
 
     .about-retail__title {
-        font-size: 2.4rem;
+        font-size: clamp(2.4rem, calc(-1.245rem + 0.356vw), 3.2rem);
     }
 
     .about-retail__description {
-        font-size: 2rem;
+        font-size: clamp(1.6rem, calc(0.689rem + 0.089vw), 1.8rem);
     }
 }
 
@@ -288,7 +300,7 @@
     
     .about-retail__description,
     .about-retail__description_tablet {
-        font-size: 1.8rem;
+        font-size: clamp(1.4rem, calc(0.2rem + 0.2vw), 1.8rem);
     }
     
     .benefits__main-text {
@@ -300,7 +312,7 @@
 /* ==================== RESPONSIVE - TABLET TO MOBILE ==================== */
 @media screen and (min-width: 601px) and (max-width: 1025px) {
     .about-retail__description {
-        font-size: 1.8rem;
+        font-size: clamp(1.4rem, calc(0.2rem + 0.2vw), 1.8rem);
     }
 
     .about-retail__description_mobile {
@@ -361,15 +373,13 @@
 
     .about-retail__description_mobile {
         display: block !important;
-        font-size: 1.8rem;
+        font-size: clamp(1.4rem, calc(0.2rem + 0.2vw), 1.8rem);
+        white-space: pre-line;
+        text-align: center;
     }
     
     .about-retail__title {
         font-size: 1.8rem;
-        text-align: center;
-    }
-    
-    .about-retail__description_mobile {
         text-align: center;
     }
     
@@ -509,51 +519,69 @@
 
 /* ==================== EQUIPMENT RESPONSIVE - MOBILE ==================== */
 @media screen and (max-width: 600px) {
+    .equipment__container {
+        padding: 1.5rem 1.5rem 3rem 1.5rem !important;
+    }
+
+    .equipment__header {
+        align-items: flex-start;
+    }
+
+    .equipment__title {
+        text-align: left;
+    }
+
     .equipment__description {
+        text-align: left;
         display: none !important;
     }
 
     .equipment__description_mobile {
+        text-align: left;
         display: block !important;
+        font-size: 1.8rem;
     }
-    
+
     .equipment__gallery {
+        display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
+        gap: 1.5rem;
+        justify-content: space-between;
         align-items: flex-start;
-        gap: 1rem;
+        width: 100%;
     }
-    
-    .equipment__gallery-image--center {
-        order: 1;
-        flex: 0 0 100%;
+
+    .equipment__logos {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        flex: 0 0 calc(50% - 0.75rem);
+    }
+
+    .equipment__logos--left {
+        align-items: flex-start;
+        order: 2;
+    }
+
+    .equipment__logos--right {
+        align-items: flex-end;
+        order: 3;
+    }
+
+    .equipment__logo {
+        max-height: 6.5rem;
+        max-width: 16rem;
+    }
+
+    .equipment__gallery-image {
         width: 100%;
         max-width: 100%;
-        margin-bottom: 1rem;
-    }
-    
-    .equipment__logos--left {
-        order: 2;
-        align-items: center;
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-    }
-    
-    .equipment__logos--right {
-        order: 3;
-        align-items: center;
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-    }
-    
-    .equipment__logo {
-        max-width: 100%;
-        max-height: 5rem;
-        width: auto;
         height: auto;
+        object-fit: contain;
+        order: 1;
+        flex: 0 0 100%;
+        margin-bottom: 1rem;
     }
 }
 
