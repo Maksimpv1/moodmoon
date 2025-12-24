@@ -29,10 +29,9 @@
 }
 
 .hero-homes__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 4rem var(--container-padding-percent) 6rem;
-    width: 100%;
+    padding: 4rem 0 6rem;
     position: relative;
     z-index: 1;
 }
@@ -54,6 +53,16 @@
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
+.hero-homes__title_tablet,
+.hero-homes__title_mobile {
+    display: none;
+    font-weight: 600;
+    line-height: 1.15em;
+    color: var(--color-white);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    white-space: pre-line;
+}
+
 /* About Section - Homes Page */
 .about-homes {
     width: 100%;
@@ -61,9 +70,9 @@
 }
 
 .about-homes__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(5.5rem, 7.64vw, 11rem) var(--container-padding-percent) clamp(3rem, 3.82vw, 5.5rem);
+    padding: clamp(5.5rem, 7.64vw, 11rem) 0 clamp(3rem, 3.82vw, 5.5rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,9 +160,9 @@
 }
 
 .knowhow__header {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) 2.4rem;
+    padding: clamp(3rem, 3.82vw, 5.5rem) 0 2.4rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -176,7 +185,8 @@
     display: none;
 }
 
-.knowhow__description {
+.knowhow__description,
+.knowhow__description_mobile {
     font-size: var(--font-size-20);
     font-weight: 500;
     line-height: var(--line-height-normal);
@@ -186,6 +196,7 @@
     text-align: left;
     align-self: flex-start;
     margin-left: calc((84.4rem - 43rem) / 2);
+    white-space: pre-line;
 }
 
 .knowhow__description_mobile {
@@ -193,11 +204,11 @@
 }
 
 .knowhow__gallery {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 0 var(--container-padding-percent) clamp(3rem, 3.82vw, 5.5rem);
+    padding: 0 0 clamp(3rem, 3.82vw, 5.5rem);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .knowhow__gallery-track {
@@ -208,8 +219,8 @@
 }
 
 .knowhow__gallery-image {
-    flex: 0 0 calc(100% - 1rem);
-    width: calc(100% - 1rem);
+    flex: 0 0 100%;
+    width: 100%;
     height: 65.7rem;
     object-fit: cover;
     border-radius: var(--radius-10);
@@ -218,10 +229,7 @@
 }
 
 .knowhow__dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.8rem;
-    margin-top: 2rem;
+    display: none;
 }
 
 .knowhow__dot {
@@ -246,9 +254,9 @@
 }
 
 .equipment-homes__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) clamp(2rem, 2.22vw, 3.2rem);
+    padding: clamp(3rem, 3.82vw, 5.5rem) 0 clamp(2rem, 2.22vw, 3.2rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -319,7 +327,7 @@
     flex-wrap: nowrap;
     animation: scrollLogos 40s linear infinite;
     will-change: transform;
-    height: clamp(3rem, 4.5vw, 7.5rem);
+    height: clamp(2rem, 3vw, 5rem);
 }
 
 @keyframes scrollLogos {
@@ -333,7 +341,7 @@
 
 .equipment-homes__logos-logo {
     height: 100%;
-    max-height: clamp(3rem, 4.5vw, 7.5rem);
+    max-height: clamp(2rem, 3vw, 5rem);
     width: auto;
     object-fit: contain;
     flex-shrink: 0;
@@ -341,7 +349,7 @@
 }
 
 .equipment-homes__logos-logo--small {
-    max-height: clamp(2.1rem, 3.15vw, 5rem);
+    max-height: clamp(1.4rem, 2.1vw, 3.5rem);
 }
 
 /* Equipment Logos Strip (old section - hidden) */
@@ -356,9 +364,9 @@
 }
 
 .scenarios-homes__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(5.5rem, 7.64vw, 11rem) var(--container-padding-percent) clamp(3rem, 3.82vw, 5.5rem);
+    padding: clamp(5.5rem, 7.64vw, 11rem) 0 clamp(3rem, 3.82vw, 5.5rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -444,62 +452,18 @@
 
 /* ==================== RESPONSIVE - TABLET ==================== */
 @media screen and (max-width: 1200px) {
-    .hero-homes__title {
-        font-size: clamp(3.2rem, 4.17vw, 6rem);
-    }
-
-    .stages__title,
-    .scenarios__title,
-    .pricing__title,
-    .equipment__title,
-    .benefits__main-text,
-    .about__text--main {
-        font-size: clamp(2rem, 2.22vw, 3.2rem);
-    }
-
-    .stage-card__text {
-        font-size: clamp(1.4rem, 1.39vw, 1.6rem);
-    }
-
-    .knowhow__container {
-        padding-right: var(--container-padding-percent);
-    }
-
-    .knowhow__gallery {
-        flex-wrap: wrap;
-    }
-
-    .knowhow__gallery-image--large {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-
-    .knowhow__gallery-image--small {
-        flex: 1 1 48%;
-        max-width: 48%;
-    }
-
-    .scenarios-homes__gallery {
-        flex-wrap: nowrap;
-    }
-
-    .scenarios-homes__item {
-        flex: 1 1 calc(33.33% - 2rem);
-        max-width: calc(33.33% - 2rem);
-        min-width: 0;
-    }
-
-    .about-homes__gallery {
-        align-items: flex-start;
-        padding: 0;
-    }
-
-    .about-homes__gallery-image--large {
-        width: clamp(34.1rem, 56.83vw, 68.2rem);
-    }
-
-    .about-homes__gallery-image--small {
-        width: clamp(20rem, 33.33vw, 40rem);
+    /* Только padding меняется, размеры контента остаются фиксированными */
+    /* Боковые отступы для контейнеров */
+    .hero-homes__container,
+    .about-homes__container,
+    .knowhow__container,
+    .knowhow__header,
+    .knowhow__gallery,
+    .knowhow__gallery-container,
+    .equipment-homes__container,
+    .scenarios-homes__container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
     }
 }
 
@@ -531,6 +495,19 @@
     }
 }
 
+/* Tablet версия title от 600px до 1200px */
+@media screen and (min-width: 601px) and (max-width: 1200px) {
+    .hero-homes__title {
+        display: none;
+    }
+
+    .hero-homes__title_tablet {
+        display: block;
+        font-size: clamp(3.6rem, 4.44vw, 6rem);
+        text-align: center;
+    }
+}
+
 /* ==================== RESPONSIVE - MOBILE ==================== */
 @media screen and (max-width: 600px) {
     .hero-homes {
@@ -539,17 +516,31 @@
         min-height: 50rem;
     }
 
-    .hero-homes__title {
+    .hero-homes__title,
+    .hero-homes__title_tablet {
+        display: none;
+    }
+
+    .hero-homes__title_mobile {
+        display: block;
         font-size: 2.4rem;
         text-align: left;
     }
 
     .hero-homes__content {
         align-items: flex-start;
+        width: 100%;
+    }
+
+    .hero-homes__content .button {
+        align-self: flex-start;
     }
 
     .hero-homes__container {
-        padding-bottom: 4rem;
+        padding: 4rem 1.5rem 4rem 0;
+        margin-left: 0;
+        margin-right: auto;
+        max-width: 100%;
     }
 
     .hero-homes__container,
@@ -602,7 +593,6 @@
 
     .knowhow__header {
         padding: 1.5rem 1.5rem 2rem;
-        align-items: center;
     }
 
     .knowhow__title {
@@ -612,7 +602,6 @@
     .knowhow__title_mobile {
         display: block !important;
         font-size: 2.4rem;
-        text-align: center;
     }
 
     .knowhow__description {
@@ -623,9 +612,7 @@
         display: block !important;
         font-size: 1.8rem;
         margin-left: 0;
-        text-align: center;
-        align-self: center;
-        white-space: pre-line;
+        text-align: left;
     }
 
     .knowhow__gallery {
@@ -634,15 +621,15 @@
     }
 
     .knowhow__gallery-track {
+        display: flex;
         flex-direction: column;
         gap: 1.5rem;
-        transform: none !important;
     }
 
     .knowhow__gallery-image {
         width: 100%;
-        height: auto;
         aspect-ratio: 330 / 185;
+        height: auto;
         flex: none;
     }
 
@@ -712,11 +699,11 @@
 
     .equipment-homes__logos-logo {
         height: 100%;
-        max-height: 3rem;
+        max-height: 2rem;
     }
 
     .equipment-homes__logos-logo--small {
-        max-height: 2.1rem;
+        max-height: 1.4rem;
     }
 
     .scenarios-homes__description {

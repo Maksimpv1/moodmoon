@@ -274,6 +274,11 @@ function startAboutSlider(wrapper) {
     const slides = wrapper.querySelectorAll('.about__gallery-slide');
     if (slides.length === 0) return;
     
+    // Отключаем автоплей в мобильной версии
+    if (window.innerWidth < 600) {
+        return;
+    }
+    
     let currentIndex = 0;
     
     aboutSliderInterval = setInterval(() => {
@@ -376,6 +381,10 @@ function initSwipe(slider, track, dotsContainer, total) {
 
     function startAutoplay() {
         stopAutoplay();
+        // Отключаем автоплей в мобильной версии
+        if (window.innerWidth < 600) {
+            return;
+        }
         autoplayInterval = setInterval(nextSlide, 4000);
     }
 
@@ -418,19 +427,28 @@ function initSwipe(slider, track, dotsContainer, total) {
             goTo(current);
         }
 
-        startAutoplay();
+        // Не запускаем автоплей в мобильной версии
+        if (window.innerWidth >= 600) {
+            startAutoplay();
+        }
     });
 
     // Клик по точкам
     dots.forEach(dot => {
         dot.addEventListener('click', () => {
             goTo(parseInt(dot.dataset.index));
-            startAutoplay();
+            // Не запускаем автоплей в мобильной версии
+            if (window.innerWidth >= 600) {
+                startAutoplay();
+            }
         });
     });
 
     goTo(0);
-    startAutoplay();
+    // Не запускаем автоплей в мобильной версии
+    if (window.innerWidth >= 600) {
+        startAutoplay();
+    }
 }
 
 window.addEventListener('load', initStagesSlider);
@@ -498,60 +516,86 @@ if (consultForm) {
 }
 
 // ==================== KNOWHOW GALLERY SLIDER ====================
+let knowhowAutoplayInterval = null;
+let knowhowCurrent = 0;
+let knowhowInitialized = false;
+let knowhowNextSlide = null;
+let knowhowGoTo = null;
+
+function startKnowhowAutoplay() {
+    stopKnowhowAutoplay();
+    // Отключаем автоплей в мобильной версии
+    if (window.innerWidth < 600) {
+        return;
+    }
+    if (knowhowNextSlide) {
+        knowhowAutoplayInterval = setInterval(knowhowNextSlide, 5000);
+    }
+}
+
+function stopKnowhowAutoplay() {
+    if (knowhowAutoplayInterval) {
+        clearInterval(knowhowAutoplayInterval);
+        knowhowAutoplayInterval = null;
+    }
+}
+
 function initKnowhowGallery() {
     const gallery = document.querySelector('.knowhow__gallery');
     if (!gallery) return;
-
-    // Отключаем слайдер на мобильных устройствах (600px и меньше)
-    if (window.innerWidth <= 600) return;
 
     const track = gallery.querySelector('.knowhow__gallery-track');
     const dots = gallery.querySelectorAll('.knowhow__dot');
     const images = gallery.querySelectorAll('.knowhow__gallery-image');
     
     if (!track || images.length === 0) return;
+    
+    // Останавливаем автоплей если он был запущен
+    if (knowhowAutoplayInterval) {
+        clearInterval(knowhowAutoplayInterval);
+        knowhowAutoplayInterval = null;
+    }
+    
+    // Не инициализируем слайдер в мобильной версии (там картинки столбиком)
+    if (window.innerWidth < 600) {
+        knowhowInitialized = false;
+        return;
+    }
+    
+    // Если уже инициализирован, просто обновляем автоплей
+    if (knowhowInitialized) {
+        startKnowhowAutoplay();
+        return;
+    }
+    
+    knowhowInitialized = true;
 
     const total = images.length;
-    let current = 0;
+    knowhowCurrent = 0;
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
-    let autoplayInterval = null;
 
     function goTo(index) {
-        current = Math.max(0, Math.min(index, total - 1));
+        knowhowCurrent = Math.max(0, Math.min(index, total - 1));
         // Учитываем gap между слайдами
-        const slideWidth = images[0].offsetWidth;
+        const slideWidth = gallery.offsetWidth;
         const gap = 20; // 2rem = 20px
-        const offset = current * (slideWidth + gap);
+        const offset = knowhowCurrent * (slideWidth + gap);
         track.style.transform = `translateX(-${offset}px)`;
-        
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('knowhow__dot--active', i === current);
-        });
     }
 
     function nextSlide() {
-        goTo((current + 1) % total);
+        goTo((knowhowCurrent + 1) % total);
     }
-
-    function startAutoplay() {
-        stopAutoplay();
-        autoplayInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopAutoplay() {
-        if (autoplayInterval) {
-            clearInterval(autoplayInterval);
-            autoplayInterval = null;
-        }
-    }
+    
+    knowhowNextSlide = nextSlide;
 
     const gap = 20; // 2rem = 20px
 
     function getSlideOffset() {
-        const slideWidth = images[0].offsetWidth;
-        return current * (slideWidth + gap);
+        const slideWidth = gallery.offsetWidth;
+        return knowhowCurrent * (slideWidth + gap);
     }
 
     // Touch events
@@ -559,7 +603,7 @@ function initKnowhowGallery() {
         isDragging = true;
         startX = e.touches[0].clientX;
         track.style.transition = 'none';
-        stopAutoplay();
+        stopKnowhowAutoplay();
     }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
@@ -578,15 +622,18 @@ function initKnowhowGallery() {
         const diff = currentX - startX;
         const threshold = gallery.offsetWidth * 0.15;
 
-        if (diff > threshold && current > 0) {
-            goTo(current - 1);
-        } else if (diff < -threshold && current < total - 1) {
-            goTo(current + 1);
+        if (diff > threshold && knowhowCurrent > 0) {
+            goTo(knowhowCurrent - 1);
+        } else if (diff < -threshold && knowhowCurrent < total - 1) {
+            goTo(knowhowCurrent + 1);
         } else {
-            goTo(current);
+            goTo(knowhowCurrent);
         }
 
-        startAutoplay();
+        // Не запускаем автоплей в мобильной версии
+        if (window.innerWidth >= 600) {
+            startKnowhowAutoplay();
+        }
     });
 
     // Mouse drag events
@@ -599,7 +646,7 @@ function initKnowhowGallery() {
         mouseStartX = e.clientX;
         track.style.transition = 'none';
         track.style.cursor = 'grabbing';
-        stopAutoplay();
+        stopKnowhowAutoplay();
         e.preventDefault();
     });
 
@@ -620,29 +667,38 @@ function initKnowhowGallery() {
         const diff = mouseCurrentX - mouseStartX;
         const threshold = gallery.offsetWidth * 0.15;
 
-        if (diff > threshold && current > 0) {
-            goTo(current - 1);
-        } else if (diff < -threshold && current < total - 1) {
-            goTo(current + 1);
+        if (diff > threshold && knowhowCurrent > 0) {
+            goTo(knowhowCurrent - 1);
+        } else if (diff < -threshold && knowhowCurrent < total - 1) {
+            goTo(knowhowCurrent + 1);
         } else {
-            goTo(current);
+            goTo(knowhowCurrent);
         }
 
-        startAutoplay();
+        // Не запускаем автоплей в мобильной версии
+        if (window.innerWidth >= 600) {
+            startKnowhowAutoplay();
+        }
     });
 
     // Dot clicks
     dots.forEach(dot => {
         dot.addEventListener('click', () => {
             goTo(parseInt(dot.dataset.index));
-            startAutoplay();
+            // Не запускаем автоплей в мобильной версии
+            if (window.innerWidth >= 600) {
+                startKnowhowAutoplay();
+            }
         });
     });
 
     // Initial setup
     track.style.cursor = 'grab';
     goTo(0);
-    startAutoplay();
+    // Не запускаем автоплей в мобильной версии
+    if (window.innerWidth >= 600) {
+        startKnowhowAutoplay();
+    }
 }
 
 // Слайдер для картинок Equipment Homes
@@ -710,6 +766,11 @@ function startEquipmentHomesSlider(wrapper) {
     const slides = wrapper.querySelectorAll('.equipment-homes__gallery-slide');
     if (slides.length === 0) return;
     
+    // Отключаем автоплей в мобильной версии
+    if (window.innerWidth < 600) {
+        return;
+    }
+    
     let currentIndex = 0;
     
     equipmentHomesSliderInterval = setInterval(() => {
@@ -727,95 +788,137 @@ window.addEventListener('load', handleEquipmentHomesSection);
 window.addEventListener('resize', handleEquipmentHomesSection);
 
 window.addEventListener('load', initKnowhowGallery);
+window.addEventListener('resize', initKnowhowGallery);
+
+// Перехват скролла для knowhow слайдера
+let knowhowScrollAccumulator = 0;
+const KNOWHOW_SCROLL_THRESHOLD = 100; // Порог для переключения слайда
+
+function handleKnowhowScroll(e) {
+    const knowhowSection = document.querySelector('.knowhow');
+    if (!knowhowSection || window.innerWidth < 600 || !knowhowGoTo) return;
+    
+    const gallery = document.querySelector('.knowhow__gallery');
+    if (!gallery) return;
+    
+    const images = gallery.querySelectorAll('.knowhow__gallery-image');
+    if (images.length === 0) return;
+    
+    const rect = knowhowSection.getBoundingClientRect();
+    const viewportTop = window.innerHeight * 0.2;
+    const viewportBottom = window.innerHeight * 0.8;
+    
+    // Проверяем, находится ли блок в активной зоне viewport
+    const isInActiveZone = rect.top <= viewportBottom && rect.bottom >= viewportTop;
+    
+    if (isInActiveZone) {
+        const deltaY = e.deltaY;
+        knowhowScrollAccumulator += deltaY;
+        
+        // Если накопилось достаточно скролла, переключаем слайд
+        if (Math.abs(knowhowScrollAccumulator) >= KNOWHOW_SCROLL_THRESHOLD) {
+            if (knowhowScrollAccumulator > 0 && knowhowCurrent < images.length - 1) {
+                // Скролл вниз - следующий слайд
+                knowhowGoTo(knowhowCurrent + 1);
+                knowhowScrollAccumulator = 0;
+                e.preventDefault();
+                return false;
+            } else if (knowhowScrollAccumulator < 0 && knowhowCurrent > 0) {
+                // Скролл вверх - предыдущий слайд
+                knowhowGoTo(knowhowCurrent - 1);
+                knowhowScrollAccumulator = 0;
+                e.preventDefault();
+                return false;
+            } else {
+                // На границе - разрешаем скролл страницы
+                knowhowScrollAccumulator = 0;
+            }
+        } else {
+            // Предотвращаем скролл страницы пока накапливается скролл для слайдера
+            if ((knowhowCurrent < images.length - 1 && deltaY > 0) || (knowhowCurrent > 0 && deltaY < 0)) {
+                e.preventDefault();
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+// Добавляем обработчик скролла
+window.addEventListener('wheel', handleKnowhowScroll, { passive: false });
 
 // ==================== RETAIL GALLERY SLIDER ====================
-function initRetailGallerySlider() {
-    const gallery = document.querySelector('.retail-gallery__gallery');
-    const container = document.querySelector('.retail-gallery__container');
-    if (!gallery || !container) return;
+function initRetailGallery() {
+    const galleryContainer = document.querySelector('.retail-gallery__container');
+    if (!galleryContainer) return;
+
+    const gallery = galleryContainer.querySelector('.retail-gallery__gallery');
+    const slider = galleryContainer.querySelector('.retail-gallery__slider');
+    
+    if (!gallery) return;
 
     const images = gallery.querySelectorAll('.retail-gallery__image');
     if (images.length === 0) return;
 
     const isMobile = window.innerWidth < 600;
-    const existingSlider = container.querySelector('.retail-gallery__slider');
 
     if (isMobile) {
-        // Скрываем обычную галерею
-        gallery.style.display = 'none';
-
         // Создаем слайдер если его еще нет
-        if (!existingSlider) {
-            const slider = document.createElement('div');
-            slider.className = 'retail-gallery__slider';
-
+        if (!slider) {
+            const sliderEl = document.createElement('div');
+            sliderEl.className = 'retail-gallery__slider';
+            
             const track = document.createElement('div');
             track.className = 'retail-gallery__slider-track';
-
+            
             const dots = document.createElement('div');
             dots.className = 'retail-gallery__dots';
-
+            
+            // Клонируем картинки в слайдер
             images.forEach((img, i) => {
                 const slide = document.createElement('div');
                 slide.className = 'retail-gallery__slider-slide';
                 const imgClone = img.cloneNode(true);
                 slide.appendChild(imgClone);
                 track.appendChild(slide);
-
+                
                 const dot = document.createElement('div');
                 dot.className = 'retail-gallery__dot' + (i === 0 ? ' retail-gallery__dot--active' : '');
                 dot.dataset.index = i;
                 dots.appendChild(dot);
             });
-
-            slider.appendChild(track);
-            slider.appendChild(dots);
-            container.appendChild(slider);
-
+            
+            sliderEl.appendChild(track);
+            sliderEl.appendChild(dots);
+            galleryContainer.appendChild(sliderEl);
+            
             // Инициализируем свайп
-            initRetailSwipe(slider, track, dots, images.length);
+            initRetailGallerySwipe(sliderEl, track, dots, images.length);
         }
     } else {
-        // На десктопе показываем галерею и удаляем слайдер
-        gallery.style.display = '';
-        if (existingSlider) {
-            existingSlider.remove();
+        // Удаляем слайдер на десктопе
+        if (slider) {
+            slider.remove();
         }
     }
 }
 
-function initRetailSwipe(slider, track, dotsContainer, total) {
+function initRetailGallerySwipe(slider, track, dotsContainer, total) {
     let current = 0;
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
-    let autoplayInterval = null;
 
     const dots = dotsContainer.querySelectorAll('.retail-gallery__dot');
 
     function goTo(index) {
         current = Math.max(0, Math.min(index, total - 1));
         track.style.transform = `translateX(-${current * 100}%)`;
-
+        
         dots.forEach((dot, i) => {
             dot.classList.toggle('retail-gallery__dot--active', i === current);
         });
-    }
-
-    function nextSlide() {
-        goTo((current + 1) % total);
-    }
-
-    function startAutoplay() {
-        stopAutoplay();
-        autoplayInterval = setInterval(nextSlide, 4000);
-    }
-
-    function stopAutoplay() {
-        if (autoplayInterval) {
-            clearInterval(autoplayInterval);
-            autoplayInterval = null;
-        }
     }
 
     // Touch events
@@ -823,7 +926,6 @@ function initRetailSwipe(slider, track, dotsContainer, total) {
         isDragging = true;
         startX = e.touches[0].clientX;
         track.style.transition = 'none';
-        stopAutoplay();
     }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
@@ -838,7 +940,7 @@ function initRetailSwipe(slider, track, dotsContainer, total) {
         if (!isDragging) return;
         isDragging = false;
         track.style.transition = 'transform 0.5s ease-out';
-
+        
         const diff = currentX - startX;
         const threshold = slider.offsetWidth * 0.2;
 
@@ -849,21 +951,17 @@ function initRetailSwipe(slider, track, dotsContainer, total) {
         } else {
             goTo(current);
         }
-
-        startAutoplay();
     });
 
     // Клик по точкам
     dots.forEach(dot => {
         dot.addEventListener('click', () => {
             goTo(parseInt(dot.dataset.index));
-            startAutoplay();
         });
     });
 
     goTo(0);
-    startAutoplay();
 }
 
-window.addEventListener('load', initRetailGallerySlider);
-window.addEventListener('resize', initRetailGallerySlider);
+window.addEventListener('load', initRetailGallery);
+window.addEventListener('resize', initRetailGallery);

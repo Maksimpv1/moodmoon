@@ -53,10 +53,9 @@
 }
 
 .hero-retail__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 0 var(--container-padding-percent) clamp(6rem, 8vw, 12rem);
-    width: 100%;
+    padding: 0 0 clamp(6rem, 8vw, 12rem);
     position: relative;
     z-index: 2;
 }
@@ -101,11 +100,11 @@
 }
 
 .about-retail__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(2.4rem, 3.75vw, 5.4rem) var(--container-padding-percent);
+    padding: clamp(2.4rem, 3.75vw, 5.4rem) 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: clamp(2rem, 2.08vw, 3rem);
 }
 
@@ -131,7 +130,7 @@
 }
 
 .about-retail__title {
-    font-size: clamp(2.4rem, calc(-1.245rem + 0.356vw), 3.2rem);
+    font-size: clamp(2rem, 2.22vw, 3.2rem);
     font-weight: 500;
     line-height: var(--line-height-title);
     color: var(--color-text-primary);
@@ -139,25 +138,14 @@
     white-space: pre-line;
 }
 
-/* Десктоп - фиксированные размеры */
-@media screen and (min-width: 1251px) {
-    .about-retail__title {
-        font-size: 3.2rem;
-    }
-    
-    .about-retail__description {
-        font-size: 1.8rem;
-    }
-}
-
 .about-retail__description,
 .about-retail__description_tablet,
 .about-retail__description_mobile {
-    font-size: clamp(1.6rem, calc(0.689rem + 0.089vw), 1.8rem);
+    font-size: 2rem;
     font-weight: 500;
     line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
-    max-width: 100%;
+    max-width: 56.8rem;
     white-space: pre-line;
 }
 
@@ -196,7 +184,7 @@
     }
     
     .hero-retail__container {
-        padding: 0 var(--container-padding-percent) clamp(3rem, 5vw, 6rem);
+        padding: 0 0 clamp(3rem, 5vw, 6rem);
     }
 
     .hero-retail__title {
@@ -204,7 +192,7 @@
     }
     
     .about-retail__title {
-        font-size: clamp(2.4rem, calc(-1.245rem + 0.356vw), 3.2rem);
+        font-size: clamp(2rem, 2.22vw, 2.4rem);
     }
     
     .about-retail__description {
@@ -213,7 +201,7 @@
     
     .about-retail__description_tablet {
         display: block;
-        font-size: clamp(1.6rem, calc(0.689rem + 0.089vw), 1.8rem);
+        font-size: clamp(1.6rem, 1.39vw, 2rem);
         white-space: pre-line;
     }
     
@@ -233,32 +221,27 @@
 
 /* ==================== RESPONSIVE - TABLET ==================== */
 @media screen and (max-width: 1200px) {
-    .hero-retail {
-        min-height: clamp(55rem, 70vh, 60rem);
-    }
-    
+    /* Только padding меняется, размеры контента остаются фиксированными */
+    /* Боковые отступы для контейнеров */
     .hero-retail__container {
-        padding: 0 var(--container-padding-percent) clamp(3rem, 5vw, 6rem);
+        padding: 0 1.5rem clamp(3rem, 5vw, 6rem);
     }
 
     .about-retail__container {
-        flex-wrap: nowrap;
-        align-items: stretch;
-        gap: 3.2rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
     }
 
-    .about-retail__content,
-    .about-retail__image-wrapper {
-        flex: 1 1 50%;
-        min-width: 0;
+    .equipment__container {
+        padding: 4rem 1.5rem;
     }
 
-    .about-retail__title {
-        font-size: clamp(2.4rem, calc(-1.245rem + 0.356vw), 3.2rem);
+    .retail-gallery__container {
+        padding: 4rem 1.5rem;
     }
 
-    .about-retail__description {
-        font-size: clamp(1.6rem, calc(0.689rem + 0.089vw), 1.8rem);
+    .benefits__container {
+        padding: clamp(3rem, 3.82vw, 5.5rem) 1.5rem clamp(4rem, 6.94vw, 10rem);
     }
 }
 
@@ -300,7 +283,8 @@
     
     .about-retail__description,
     .about-retail__description_tablet {
-        font-size: clamp(1.4rem, calc(0.2rem + 0.2vw), 1.8rem);
+        font-size: 1.8rem;
+        white-space: pre-line;
     }
     
     .benefits__main-text {
@@ -312,11 +296,26 @@
 /* ==================== RESPONSIVE - TABLET TO MOBILE ==================== */
 @media screen and (min-width: 601px) and (max-width: 1025px) {
     .about-retail__description {
-        font-size: clamp(1.4rem, calc(0.2rem + 0.2vw), 1.8rem);
+        font-size: 1.8rem;
     }
 
     .about-retail__description_mobile {
         display: none !important;
+    }
+}
+
+/* ==================== RESPONSIVE - 600px to 700px ==================== */
+@media screen and (min-width: 601px) and (max-width: 700px) {
+    .about-retail__content {
+        flex: 1 1 calc(55% - 1rem);
+        min-width: 20rem;
+        max-width: calc(55% - 1rem);
+    }
+    
+    .about-retail__image-wrapper {
+        flex: 1 1 calc(45% - 1rem);
+        min-width: 15rem;
+        max-width: calc(45% - 1rem);
     }
 }
 
@@ -329,8 +328,11 @@
     }
     
     .hero-retail__container {
-        padding: 0 var(--container-padding-percent) clamp(2.4rem, 4vw, 4rem);
+        padding: 0 1.5rem clamp(2.4rem, 4vw, 4rem);
         justify-content: flex-end;
+        margin-left: 0;
+        margin-right: auto;
+        max-width: 100%;
     }
     
     .hero-retail__content {
@@ -354,6 +356,7 @@
         display: block;
         width: 100%;
         max-width: 21rem;
+        align-self: flex-start;
     }
     
     .hero-retail__button .button__text {
@@ -373,7 +376,7 @@
 
     .about-retail__description_mobile {
         display: block !important;
-        font-size: clamp(1.4rem, calc(0.2rem + 0.2vw), 1.8rem);
+        font-size: 1.8rem;
         white-space: pre-line;
         text-align: center;
     }
@@ -394,15 +397,20 @@
     
     .about-retail__container {
         flex-direction: column;
+        gap: 2rem;
     }
     
     .about-retail__content {
         order: 1;
         align-items: center;
+        flex: 0 1 auto;
     }
     
     .about-retail__image-wrapper {
         order: 2;
+        flex: 0 1 auto;
+        max-width: 100%;
+        width: 100%;
     }
 }
 
@@ -414,9 +422,9 @@
 }
 
 .equipment__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 4rem var(--container-padding-percent);
+    padding: 4rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -497,7 +505,7 @@
 }
 
 .equipment__gallery-image--center {
-    align-self: center;
+    align-self: flex-start;
 }
 
 /* Мобильные версии текстов - скрыты по умолчанию */
@@ -507,6 +515,10 @@
 
 /* ==================== EQUIPMENT RESPONSIVE - TABLET ==================== */
 @media screen and (max-width: 1200px) {
+    .equipment__container {
+        padding: 4rem 1.5rem;
+    }
+
     .equipment__logos {
         gap: 1.5rem;
     }
@@ -537,11 +549,11 @@
     }
 
     .equipment__description_mobile {
-        text-align: left;
         display: block !important;
+        text-align: left;
         font-size: 1.8rem;
     }
-
+    
     .equipment__gallery {
         display: flex;
         flex-direction: row;
@@ -570,8 +582,8 @@
     }
 
     .equipment__logo {
-        max-height: 6.5rem;
-        max-width: 16rem;
+        max-height: 5.5rem;
+        max-width: 14rem;
     }
 
     .equipment__gallery-image {
@@ -592,9 +604,9 @@
 }
 
 .retail-gallery__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 4rem var(--container-padding-percent);
+    padding: 2rem 0;
 }
 
 .retail-gallery__gallery {
@@ -629,6 +641,7 @@
     display: flex;
     transition: transform 0.5s ease-out;
     touch-action: pan-y pinch-zoom;
+    width: 100%;
 }
 
 .retail-gallery__slider-slide {
@@ -667,6 +680,13 @@
     width: 2.4rem;
     border-radius: 0.4rem;
     background-color: #535353;
+}
+
+/* ==================== RETAIL GALLERY RESPONSIVE - TABLET ==================== */
+@media screen and (max-width: 1200px) {
+    .retail-gallery__container {
+        padding: 2rem 1.5rem;
+    }
 }
 
 /* ==================== RETAIL GALLERY RESPONSIVE - TABLET TO MOBILE ==================== */
@@ -713,14 +733,15 @@
 }
 
 .benefits__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) clamp(4rem, 6.94vw, 10rem);
+    padding: clamp(3rem, 3.82vw, 5.5rem) 0 clamp(4rem, 6.94vw, 10rem);
     display: flex;
     flex-wrap: nowrap;
     align-items: stretch;
     justify-content: space-between;
     gap: clamp(2rem, 5vw, 10rem);
+    box-sizing: border-box;
 }
 
 .benefits__content {
@@ -828,6 +849,21 @@
 
 /* ==================== BENEFITS RESPONSIVE - SMALL TABLET (930px) ==================== */
 @media screen and (max-width: 930px) and (min-width: 601px) {
+    .scenarios__gallery {
+        flex-wrap: nowrap;
+        gap: 2rem;
+        max-width: 100%;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .scenarios__item {
+        flex: 1 1 calc(33.33% - 1.33rem);
+        max-width: calc(33.33% - 1.33rem);
+        min-width: 0;
+    }
+
     .benefits__container {
         flex-wrap: nowrap;
         gap: 3rem;
@@ -875,6 +911,13 @@
 
     .benefits__list {
         max-width: 100%;
+    }
+}
+
+/* ==================== BENEFITS RESPONSIVE - TABLET ==================== */
+@media screen and (max-width: 1200px) {
+    .benefits__container {
+        padding: clamp(3rem, 3.82vw, 5.5rem) 1.5rem clamp(4rem, 6.94vw, 10rem);
     }
 }
 

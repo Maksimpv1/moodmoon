@@ -1,3 +1,15 @@
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==================== BUTTON COMPONENT ==================== */
 .button {
     width: 100%;
@@ -141,6 +153,20 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+    cursor: pointer;
+    will-change: transform;
+    perspective: 1000px;
+}
+
+.stage-card:hover {
+    transform: rotateY(180deg) translateZ(20px);
+}
+
+.stage-card:hover .stage-card__body,
+.stage-card:hover .stage-card__header {
+    pointer-events: none;
 }
 
 .stage-card--wide {
@@ -183,6 +209,30 @@
     flex-direction: column;
     gap: var(--spacing-16);
     flex: 1;
+    backface-visibility: hidden;
+    pointer-events: none;
+}
+
+.stage-card__header {
+    pointer-events: none;
+}
+
+.stage-card__image-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-20);
+    overflow: hidden;
+    backface-visibility: hidden;
+    transform: rotateY(180deg) translateZ(1px);
+}
+
+.stage-card__image-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .stage-card__text,
@@ -247,13 +297,12 @@
 }
 
 .stages__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 4rem var(--container-padding-percent);
+    padding: 4rem 0;
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    width: 100%;
 }
 
 .stages__header {
@@ -293,9 +342,10 @@
 .stages__row {
     display: grid;
     grid-template-columns: repeat(4, 27.1rem);
-    gap: 2rem;
+    gap: clamp(0.3rem, 0.8vw, 1.5rem);
     justify-content: space-between;
     align-items: start;
+    perspective: 1200px;
 }
 
 /* ==================== PRICING SECTION ==================== */
@@ -305,9 +355,9 @@
 }
 
 .pricing__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent);
+    padding: clamp(3rem, 3.82vw, 5.5rem) 0;
     display: flex;
     gap: clamp(3rem, 5.83vw, 8.4rem);
 }
@@ -419,6 +469,7 @@
     min-width: 30rem;
     max-width: 56.9rem;
     aspect-ratio: 569 / 571.35;
+    margin-left: auto;
 }
 
 .pricing__image {
@@ -435,9 +486,9 @@
 }
 
 .scenarios__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: 4rem var(--container-padding-percent);
+    padding: 4rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -529,9 +580,9 @@
 }
 
 .benefits__container {
-    max-width: var(--container-width);
+    max-width: 117rem;
     margin: 0 auto;
-    padding: clamp(3rem, 3.82vw, 5.5rem) var(--container-padding-percent) clamp(4rem, 6.94vw, 10rem);
+    padding: clamp(3rem, 3.82vw, 5.5rem) 0 clamp(4rem, 6.94vw, 10rem);
     display: flex;
     flex-wrap: nowrap;
     align-items: stretch;
@@ -626,6 +677,18 @@
     text-align: left;
 }
 
+/* ==================== MODAL ANIMATIONS ==================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==================== MODAL ==================== */
 .modal {
     position: fixed;
@@ -634,13 +697,19 @@
     width: 100%;
     height: 100%;
     z-index: 9999;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: visibility 0s, opacity 0.8s ease;
 }
 
 .modal--open {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .modal__overlay {
@@ -651,6 +720,12 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.modal--open .modal__overlay {
+    opacity: 1;
 }
 
 .modal__content {
@@ -660,10 +735,13 @@
     background: #161616;
     display: none;
     flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.3s;
 }
 
 .modal__content--active {
     display: flex;
+    opacity: 1;
 }
 
 .modal__close {
@@ -697,6 +775,10 @@
     gap: 16px;
     max-width: 570px;
     margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 0.5s;
 }
 
 .modal__title {
@@ -727,6 +809,12 @@
     gap: 16px;
 }
 
+.modal__content--active .modal__form {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 0.7s;
+}
+
 .modal__inputs {
     display: flex;
     flex-direction: column;
@@ -737,6 +825,13 @@
 .modal__row {
     display: flex;
     gap: 30px;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.modal__content--active .modal__row {
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 0.9s;
 }
 
 .modal__input {
@@ -776,7 +871,13 @@
     font-size: 20px;
     line-height: 1.21;
     resize: none;
-    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.modal__content--active .modal__textarea {
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.1s;
 }
 
 .modal__textarea::placeholder {
@@ -794,6 +895,16 @@
     background: #306FDB;
     border: none;
     border-radius: 40px;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.modal__content--active .modal__submit {
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.3s;
+}
+
+.modal__submit {
     color: #FFFFFF;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
@@ -802,6 +913,7 @@
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
     margin-top: 22px;
+    box-sizing: border-box;
 }
 
 .modal__submit:hover {
@@ -818,6 +930,16 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 1.21;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.modal__content--active .modal__privacy {
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.5s;
+}
+
+.modal__privacy {
     text-align: left;
     margin: 0;
 }
@@ -895,10 +1017,86 @@
     white-space: pre-line;
 }
 
+/* ==================== RESPONSIVE - MEDIUM DESKTOP ==================== */
+@media screen and (max-width: 1200px) {
+    .stages__row {
+        display: grid;
+        grid-template-columns: 27.1rem 1fr 27.1rem;
+        column-gap: clamp(0.8rem, 1.2vw, 2.5rem);
+        row-gap: 2rem;
+        align-items: start;
+    }
+
+    /* Позиционирование карточек для новой сетки */
+    /* Строка 1: [1][2] слева, [img1] справа */
+    .stages__row > .stage-card:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+    }
+
+    .stages__row > .stage-card:nth-child(2) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        margin-left: calc(27.1rem + clamp(0.8rem, 1.2vw, 2.5rem));
+    }
+
+    .stages__row > .stage-card__image:nth-child(3) {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+        width: 23rem;
+        min-width: 23rem;
+        max-width: 23rem;
+        height: 26.5rem;
+    }
+    
+    .stages__row > .stage-card__image:nth-child(3) .stage-card__image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Строка 2: [3] слева, [img2] в центре, [4] справа */
+    .stages__row > .stage-card.stage-card--wide:nth-child(4) {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: start;
+    }
+
+    .stages__row > .stage-card__image:nth-child(5) {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: center;
+    }
+
+    .stages__row > .stage-card:nth-child(6) {
+        grid-column: 3;
+        grid-row: 2;
+        justify-self: end;
+    }
+
+    /* Строка 3: [5][6] справа */
+    .stages__row > .stage-card:nth-child(7) {
+        grid-column: 3;
+        grid-row: 3;
+        justify-self: end;
+        margin-right: calc(27.1rem + clamp(0.8rem, 1.2vw, 2.5rem));
+    }
+
+    .stages__row > .stage-card:nth-child(8) {
+        grid-column: 3;
+        grid-row: 3;
+        justify-self: end;
+    }
+}
+
 /* ==================== RESPONSIVE - LARGE DESKTOP ==================== */
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 1401px) {
     .stages__row {
         grid-template-columns: repeat(4, 27.1rem);
+        gap: clamp(0.8rem, 1vw, 1.8rem);
         justify-content: space-between;
     }
 }
@@ -935,9 +1133,18 @@
         height: var(--inner-right-height, 5rem);
     }
 
+    /* Боковые отступы для контейнеров */
+    .stages__container,
+    .pricing__container,
+    .scenarios__container,
+    .benefits__container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
     .stages__row {
         grid-template-columns: repeat(3, 27.1rem);
-        gap: 2rem;
+        gap: clamp(0.4rem, 0.7vw, 1rem);
         justify-content: space-between;
     }
 }
@@ -952,6 +1159,10 @@
 
     .button__text {
         font-size: 1.8rem;
+    }
+
+    .stages__row {
+        gap: clamp(0.3rem, 0.5vw, 0.9rem);
     }
 
     /* Луны для кнопок на разрешении меньше 1000px */
@@ -1022,6 +1233,10 @@
         font-size: clamp(1.4rem, 1.39vw, 1.8rem);
     }
 
+    .stages__row {
+        gap: clamp(0.2rem, 0.4vw, 0.7rem);
+    }
+
     /* Луны для кнопок на разрешении 768px и меньше */
     .button::before {
         width: 4.2rem;
@@ -1046,11 +1261,8 @@
 
 /* ==================== RESPONSIVE - SMALL TABLET ==================== */
 @media screen and (max-width: 930px) and (min-width: 601px) {
-    .stages__row {
-        grid-template-columns: repeat(2, 27.1rem);
-        gap: 2rem;
-        justify-content: space-between;
-    }
+
+
 
     .pricing__content {
         flex-wrap: nowrap;
@@ -1067,11 +1279,15 @@
     .scenarios__gallery {
         flex-wrap: nowrap;
         gap: 2rem;
+        max-width: 100%;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .scenarios__item {
-        flex: 1 1 calc(33.33% - 2rem);
-        max-width: calc(33.33% - 2rem);
+        flex: 1 1 calc(33.33% - 1.33rem);
+        max-width: calc(33.33% - 1.33rem);
         min-width: 0;
     }
 
@@ -1096,6 +1312,95 @@
     .benefits__gallery-image {
         width: 12rem;
         height: 11rem;
+    }
+}
+
+/* ==================== RESPONSIVE - TABLET 850px ==================== */
+@media screen and (max-width: 850px) and (min-width: 601px) {
+    .stages__row {
+        display: grid;
+        grid-template-columns: 27.1rem 1fr 27.1rem;
+        column-gap: clamp(0.8rem, 1.2vw, 2.5rem);
+        row-gap: 2rem;
+        align-items: start;
+    }
+
+    /* Строка 1: [1][2] слева, img справа */
+    .stages__row > .stage-card:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+    }
+
+    .stages__row > .stage-card:nth-child(2) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        margin-left: calc(27.1rem + clamp(0.8rem, 1.2vw, 2.5rem));
+    }
+
+    .stages__row > .stage-card__image:nth-child(3) {
+        display: block;
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+        width: 17.5rem;
+        min-width: 17.5rem;
+        max-width: 17.5rem;
+        height: 20.4rem;
+    }
+    
+    .stages__row > .stage-card__image:nth-child(3) .stage-card__image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Строка 2: [3][4] в центре - обе карточки рядом, группа выровнена по центру */
+    .stages__row > .stage-card.stage-card--wide:nth-child(4) {
+        grid-column: 1 / 4;
+        grid-row: 2;
+        justify-self: center;
+        margin-left: calc(-27.1rem - clamp(0.8rem, 1.2vw, 2.5rem) / 2);
+    }
+
+    .stages__row > .stage-card:nth-child(6) {
+        grid-column: 1 / 4;
+        grid-row: 2;
+        justify-self: center;
+        margin-left: calc(27.1rem + clamp(0.8rem, 1.2vw, 2.5rem) / 2);
+    }
+
+    /* Строка 3: img слева, [5][6] справа */
+    .stages__row > .stage-card__image:nth-child(5) {
+        display: block;
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: start;
+        align-self: end;
+        width: 17.5rem;
+        min-width: 17.5rem;
+        max-width: 17.5rem;
+        height: 20.4rem;
+    }
+    
+    .stages__row > .stage-card__image:nth-child(5) .stage-card__image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .stages__row > .stage-card:nth-child(7) {
+        grid-column: 3;
+        grid-row: 3;
+        justify-self: end;
+        margin-right: calc(27.1rem + 1.5rem);
+    }
+
+    .stages__row > .stage-card:nth-child(8) {
+        grid-column: 3;
+        grid-row: 3;
+        justify-self: end;
     }
 }
 
